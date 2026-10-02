@@ -1,0 +1,17 @@
+{
+  "protocol": "natural_GY_physical_PET_condition_comparison_v1",
+  "base_policy": {"path": "configs/natural_percentile/joint_generator_finetune_v2.json", "sha256": "ba7918fb2b90338b3f1e28fb8d2737331636b152dc7ee5e97c58202bd9b8c490"},
+  "recipes": ["physical_PET"],
+  "purpose": "plan2_section9_4_GY_comparison; not replacement of the requested GP main line",
+  "base_model_condition": "c_phys=1-actual_native_scene_PET/4; not an estimated percentile",
+  "auxiliary_and_deployment_model_condition": "c_phys=1-frozen_H_CDF_quantile(1-requested_P)/4",
+  "H_only_CDF_features_shared_with_GP": true,
+  "base_tangent_density_view": "constant1_over4_for_linear_physical_coordinate; original_cache_not_modified",
+  "same_as_GP": ["FIT9913", "initial_parameter_tensors", "parameter_shapes", "six_epoch_budget", "optimizer_groups", "base_and_auxiliary_rng_streams", "history_sampling", "P_grid_for_auxiliary_queries", "rank_PET_physics_objectives", "DDIM50_full_backprop", "raw_K1_evaluation"],
+  "initial_forward_function_equality_not_claimed_after_condition_semantics_change": true,
+  "original_natural_observations_and_OOF_label_artifacts_unchanged": true,
+  "no_simulated_or_generated_trajectory_as_natural_supervision": true,
+  "new_robustness_or_multiseed_study": false,
+  "production_default_changed": false,
+  "output_root": "outputs/natural_percentile/physical_PET_generator_v1_20260913"
+}

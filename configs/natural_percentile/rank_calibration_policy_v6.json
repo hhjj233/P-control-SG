@@ -1,0 +1,31 @@
+{
+  "protocol": "natural_global_rank_calibration_policy_v6",
+  "natural_only": true,
+  "generator_training": false,
+  "base_models": "unchanged_six_frozen_fresh_v5_bases",
+  "calibration_role": "same_CAL722_six_recordings_as_v5",
+  "calibration_family": "global_two_parameter_logit_affine_continuous_CDF_map",
+  "a_bounds": [
+    0.25,
+    4
+  ],
+  "b_bounds": [
+    -4,
+    4
+  ],
+  "maxiter": 1000,
+  "objective": "mean_squared_sorted_transformed_continuous_PIT_minus_midrank_uniform_positions",
+  "endpoint_atoms_fixed": true,
+  "actual_PET_or_PIT_clipping": false,
+  "initializations": [
+    "identity",
+    "same_training_subset_NLL_fit"
+  ],
+  "initialization_selection": "minimum_training_CVM_objective",
+  "six_record_LOO": "diagnostic_only_no_hyperparameter_or_method_selection",
+  "deployment": "full_CAL_CVM_refit_frozen_before_AUDIT_prediction_archive_decode",
+  "evaluation_gates": "exact_unchanged_v5_policy_evaluation",
+  "AUDIT_used_for_parameter_selection": false,
+  "AUDIT_status": "previously_inspected_internal_development_audit",
+  "conditional_guarantee_claimed": false
+}

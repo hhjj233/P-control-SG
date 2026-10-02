@@ -1,0 +1,15 @@
+{
+  "protocol": "transformer_capacity_control_CAL_development_validation_v1",
+  "output_root": "outputs/natural_percentile/transformer_publication_v1_20260916/capacity_matched_MLP_v1/validation",
+  "training_result": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/capacity_matched_MLP_v1/result.json", "sha256": "1546de3b6ae944ad183b4ec113544eadb78eeb837cc43756c0292c8045c0026f"},
+  "calibration_policy": {"path": "configs/natural_percentile/transformer_reference_validation_v1.json", "sha256": "024114be2e51dec83568d3d4f4ab89b960ab276abe5300ccfa5c8d934b6bd42a"},
+  "baseline_reference": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_reference_validation_v1/reference_manifest.json", "sha256": "7b09eed8e745d32c63d3e912d38d3f4fd3e3c2206831ff4b1fac1a14671a9b0a"},
+  "variants": ["stage1", "group_guarded", "unguarded"],
+  "primary_comparison": "same_group_guarded_rule_and_count_balanced_CAL_selector",
+  "calibration_candidates_and_selectors": "unchanged_P2_identity_global_count_and_five_ridges_both_selectors",
+  "all_new_CAL_choices_frozen_before_any_new_AUDIT_prediction": true,
+  "base_weights_chosen_using_STOP_only": true,
+  "existing_primary_reference_or_generator_changed": false,
+  "protected_data_access": false,
+  "scope": "supplementary_near_capacity_matched_control_reused_development_not_blind"
+}

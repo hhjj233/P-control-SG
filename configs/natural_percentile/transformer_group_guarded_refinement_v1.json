@@ -1,0 +1,40 @@
+{
+  "protocol": "transformer_group_guarded_reference_refinement_v1",
+  "source_study": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/reference_ablation/result.json", "sha256": "b5085db910fa1011e78e2362bca03831de1892e016fadd1f19c4a1a9884e6c2a"},
+  "diagnostic_study": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/reference_validation_v1/result.json", "sha256": "544dd2cb2ec1a079aef05f9703e67cb2cf39ace584e565bd96af1738df66d714"},
+  "motivation": "STOP_N3_5_regression_was_hidden_by_overall_highN_selection; prior_development_AUDIT_showed_the_same_tradeoff",
+  "arms": ["M2_MLP", "M2_TimeAttn", "M2_TimeAttn_absolute_only", "M2_TimeAttn_relative_only", "M1_TimeAttn", "M2_GRU"],
+  "initialization": "each_arms_existing_STOP_selected_stage1_checkpoint",
+  "training": {
+    "seed": 20260915,
+    "epochs": 30,
+    "patience_stopping": false,
+    "same_complete_trajectory_for_both_selection_rules": true,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "batch_size": 128,
+    "gradient_clip_norm": 5.0,
+    "highN_weight": 2.0,
+    "all_FIT_rows_per_epoch": 9913,
+    "objective": "unchanged_analytic_CRPS_over_cap_with_positive_history_count_weights",
+    "save_all_epochs": true
+  },
+  "selection": {
+    "role": "STOP",
+    "score": "0.5_overall_CRPS_plus_0.5_highN_CRPS",
+    "unguarded": {"overall_ratio_to_stage1": 1.02, "highN_ratio_to_stage1": 1.0},
+    "group_guarded": {"overall_ratio_to_stage1": 1.02, "highN_ratio_to_stage1": 1.0, "all_supported_N_groups_ratio_to_stage1": 1.02},
+    "groups": ["N3_5", "N6_8", "N9_plus"],
+    "minimum_group_rows": 20,
+    "numerical_tolerance_seconds": 1e-12,
+    "fallback": "unchanged_stage1_epoch0",
+    "tie": "earliest_epoch",
+    "stage1_baseline_is_always_eligible": true
+  },
+  "runtime": {"device": "cuda:0", "threads": 2, "deterministic": true, "TF32": false, "AMP": false},
+  "CAL_AUDIT_predictions_or_fitting_in_this_stage": false,
+  "protected_data_access": false,
+  "main_architecture": "M2_TimeAttn",
+  "main_selection_rule": "group_guarded",
+  "output_root": "outputs/natural_percentile/transformer_publication_v1_20260916/group_guarded_refinement_v1"
+}

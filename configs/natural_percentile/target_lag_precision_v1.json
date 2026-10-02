@@ -1,0 +1,61 @@
+{
+  "protocol": "natural_GP_target_lag_precision_v1",
+  "base_policy": {
+    "path": "configs/natural_percentile/wide_risk_fast_continuation_v1.json",
+    "sha256": "18140c35fb79edde14a5efe0df27713642650cd4bb20319d5403b6834e3539fb"
+  },
+  "recipes": [
+    "target_lag_precision"
+  ],
+  "smoke_only": false,
+  "parent_protocol": "natural_GP_wide_coupled_risk_continuation_v1",
+  "parent_training_state": {
+    "path": "outputs/natural_percentile/wide_coupled_risk_continuation_v1_20260913/wide_coupled/training_state_epoch_003.pt",
+    "sha256": "bf8278aebd8b5e0cb52e522d05b6d5df18045d0ad2b8a787bf2b7e6286980221"
+  },
+  "parent_training_result": {
+    "path": "outputs/natural_percentile/wide_coupled_risk_continuation_v1_20260913/wide_coupled/result.json",
+    "sha256": "3a2f75e63a34ba2f8945fbe4bc4c6e49adeeb71f1260b18a72413a428ffdaafd"
+  },
+  "parent_local_epoch": 3,
+  "parent_global_epoch": 12,
+  "warmstart_check": {
+    "path": "outputs/natural_percentile/target_lag_warmstart_v1_20260913/result.json",
+    "sha256": "ef689a0de8f04e3c37d9c742d70da566f1de67c5449af09267804d6cf1232d2a"
+  },
+  "optimizer_transfer_check": {
+    "path": "outputs/natural_percentile/target_lag_optimizer_transfer_v1_20260913/result.json",
+    "sha256": "06990b5ccc257bfbde6a321548ffc2d8cc31f3c1f3178ea9289565ca67da8549"
+  },
+  "geometry": {
+    "lag_samples": 8,
+    "lag_hidden": 64
+  },
+  "training_overrides": {
+    "epochs": 4,
+    "snapshot_epochs": [
+      0,
+      1,
+      2,
+      4
+    ],
+    "geometry_init_seed": 20261437,
+    "geometry_warmup_epochs": 1,
+    "terminal_CFG_scale": 2.5,
+    "Fine_band_weight": 0.3
+  },
+  "performance_evaluation": true,
+  "output_root": "outputs/natural_percentile/target_lag_precision_v1_20260913",
+  "runtime_device": "cuda:1",
+  "precision_reference": {
+    "path": "outputs/natural_percentile/wide_CFG_attenuation_v1_20260913/scale_2.5/results.json",
+    "sha256": "24dd5ff02384100ae45a430bd7abb926e13861416374832a879f40d3e901b2d3"
+  },
+  "target_Fine_count": 25,
+  "Fine_tolerance": 0.05,
+  "fixed_development_requests": 36,
+  "natural_observations_and_CDF_unchanged": true,
+  "no_multiseed_or_robustness_study": true,
+  "selection": "maximize Fine then minimize P_MAE; report all physics tradeoffs, do not erase failures",
+  "changes_not_isolated": "geometry input plus one-epoch warmup plus Fine weight0.3 and training/evaluation CFG2.5 alignment"
+}

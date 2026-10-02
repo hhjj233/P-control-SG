@@ -1,0 +1,27 @@
+{
+  "protocol": "guarded_time_attention_crossfit_v1",
+  "reference_manifest": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_reference_validation_v1/reference_manifest.json", "sha256": "7b09eed8e745d32c63d3e912d38d3f4fd3e3c2206831ff4b1fac1a14671a9b0a"},
+  "physical_prepared": {"path": "outputs/natural_percentile/natural_direct_p_labels_v1_20260910/prepared.json", "sha256": "b65c5afc88c4ab97310dd6c1b1078e1abd0a339fc6e52fa67eeebda95b2bfed6"},
+  "heldout_recordings": {"0": ["08", "10", "22"], "1": ["28", "40", "52"], "2": ["12", "26", "55"], "3": ["11", "46"], "4": ["05", "57"]},
+  "teacher_training": {
+    "seed": 20260915,
+    "base_epochs": 47,
+    "highN_epochs": 0,
+    "base_learning_rate": 0.001,
+    "highN_learning_rate": 0.0001,
+    "highN_weight_multiplier": 2.0,
+    "batch_size": 128,
+    "gradient_clip_norm": 5.0,
+    "weight_decay": 0.0001,
+    "held_or_STOP_selection": false,
+    "own_fold_normalizer": true,
+    "old55_epoch_teacher_weights_reused": false
+  },
+  "calibration": {"family": "count", "ridge": 1.0, "own_CAL_nodes_per_teacher": true, "main_reference_nodes_reused": false},
+  "runtime": {"device": "cuda:0", "threads": 2, "deterministic": true, "TF32": false, "AMP": false},
+  "labels": {"FIT": "recording_excluded_teacher_midrank", "STOP": "fullFIT_guarded_reference_midrank", "random_within_atom": false},
+  "allowed_roles": ["FIT", "CAL", "STOP"],
+  "CAL_generator_examples": false,
+  "protected_data_access": false,
+  "output_root": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_crossfit_v1"
+}

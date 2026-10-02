@@ -1,0 +1,199 @@
+#!/usr/bin/env python3
+"""Discriminative-LR full-generator tuning; the CDF and natural data stay frozen."""
+import argparse
+from collections import Counter
+import copy
+import hashlib
+import json
+import time
+import numpy as np
+import torch
+from pcontrol.research import pilot_dynamic_full_chain as previous
+from pcontrol.generation.trainable_risk_generator import TrainableRiskGenerator
+from pcontrol.generation.random_stream_state import paired_stream_state,slow_cycle_state
+
+old=previous.old;multi=previous.multi;ROOT=previous.ROOT
+RulerContextPercentileDenoiser=TrainableRiskGenerator
+weighted_auxiliary_backward=previous.previous.weighted_auxiliary_backward
+speed_strata=previous.speed_strata;SlowHistoryCycle=previous.SlowHistoryCycle
+PROTOCOL='natural_joint_generator_risk_finetuning_v1'
+POLICY_SHA='ba7918fb2b90338b3f1e28fb8d2737331636b152dc7ee5e97c58202bd9b8c490'
+CODE=previous.CODE+('pcontrol/generation/trainable_risk_generator.py','pcontrol/research/finetune_joint_risk_generator_v2.py','pcontrol/generation/random_stream_state.py')
+
+
+def read_policy(binding):
+    if binding.get('sha256')!=POLICY_SHA:raise ValueError('frozen generator finetuning policy required')
+    patch=old.bound_json(binding)
+    if patch['protocol']!=PROTOCOL or patch['recipes']!=['joint_generator']:raise ValueError('wrong full-generator trial')
+    policy=previous.read_policy(patch['base_policy'])
+    policy.update(protocol=PROTOCOL,recipes=patch['recipes'],resume_checkpoint=patch['resume_checkpoint'],
+        resume_epoch=patch['resume_epoch'],joint_base_policy=patch['base_policy'],
+        output_root=patch['output_root'],previous_STOP=patch['previous_STOP'])
+    policy['training'].update(patch['training_overrides']);policy['history_sampling']['seed']=patch['history_sampling_seed']
+    policy['evaluation']['candidate_epochs']=[1,3,6]
+    for key in ('resume_checkpoint','previous_STOP','FIT_parameter_probe'):old.verify_binding(patch[key])
+    return policy
+
+
+def load_inputs(policy,device):
+    source=previous.load_inputs(policy,device)
+    source['codes'].update({p:old.sha256(ROOT/p) for p in CODE})
+    return source
+
+
+def context_values(policy,binding,source):
+    original_binding=policy['joint_base_policy'];original=previous.read_policy(original_binding)
+    return previous.context_values(original,original_binding,source)
+
+
+def context_batch(pack,p_values,rows,shape_values,recipe,device):
+    if recipe!='joint_generator':raise ValueError('full-generator recipe required')
+    return previous.previous.context_batch(pack,p_values,rows,shape_values,'dynamic_dual',device)
+
+
+def update_adapter_ema(ema,model,decay):
+    # Kept as the local training-loop hook name, but scope is now ALL generator parameters.
+    with torch.no_grad():
+        targets=dict(ema.named_parameters())
+        for name,value in model.named_parameters():targets[name].mul_(decay).add_(value,alpha=1.-decay)
+        buffers=dict(ema.named_buffers())
+        for name,value in model.named_buffers():buffers[name].copy_(value)
+
+def train_epoch(model,ema,schedule,optimizer,pack,p_values,cache,teacher,streams,aux_rng,cfg,physics,coverage,recipe,device,
+                *,shape_values,slow_cycle,progress=None,max_updates=None):
+    model.train();order=streams.order(len(p_values));hashes={k:hashlib.sha256() for k in ('base_noise','drop','presence','aux_noise_plan')}
+    target_hash=hashlib.sha256();slots=coverage['slots_per_history'];started=time.perf_counter();reasons=Counter()
+    stat=dict(base_loss_scenes=0,updates=0,base_v_sum=0.,projection_support=0,jacobian_support=0,p_dropped=0,
+        auxiliary_histories=0,auxiliary_requests=0,present_histories=0,target_eligible=0,positive_target_floor=0,
+        supported=0,geometry_supported=0,point_sum=0.,floor_sum=0.,numeric_sum=0.,road_events=0,speed_events=0,
+        road_loss_sum=0.,speed_loss_sum=0.,forward_NFE=0,backward_NFE=0,gradient_norm_max=0.,PET_numeric_sum=0.,PET_supported=0,PET_error_sum=0.)
+    for start in range(0,len(order),cfg['batch_size']):
+        if max_updates is not None and stat['updates']>=max_updates:break
+        rows=order[start:start+cfg['batch_size']]
+        f,c,p=context_batch(pack,p_values,rows,shape_values,recipe,device);p=p.detach().requires_grad_(True)
+        times,noise,u,present=streams.draw(c.shape,schedule.steps,cfg['p_dropout_probability'])
+        for a in (np.asarray(c.shape,dtype=np.int64),times.numpy(),noise.numpy()):hashes['base_noise'].update(a.tobytes())
+        hashes['drop'].update(u.tobytes());hashes['presence'].update(present.tobytes())
+        presence=torch.from_numpy(present).to(device);t=times.to(device);optimizer.zero_grad(set_to_none=True)
+        base=old.cfg_training_loss(model,schedule,c,f,p,presence,timesteps=t,noise=noise.to(device))
+        extra=old.natural_tangent_losses(base['model_prediction'],base['prediction_target'],base['noisy_coefficients'],p,
+            schedule.alpha_bar(t,base['model_prediction']),f['agent_mask'],condition_present=presence,
+            projection_weight=cfg['loss_weights']['projection'],jacobian_weight=cfg['loss_weights']['jacobian'],
+            min_jacobian_sigma=cfg['min_jacobian_sigma'],**old.tangent.cache_batch(cache,rows,c.shape[1],device))
+        if extra['diagnostics']['jacobian_evaluated'] and extra['diagnostics']['p_graph_connected'] is False:
+            raise RuntimeError('base response is disconnected')
+        loss=base['loss']+extra['loss']
+        if not bool(torch.isfinite(loss)):raise FloatingPointError('nonfinite base loss')
+        loss.backward();stat['base_v_sum']+=float(base['loss'].detach())*len(rows)
+        stat['projection_support']+=extra['support_counts']['projection'];stat['jacobian_support']+=extra['support_counts']['jacobian']
+        del base,extra,loss
+        selected=slow_cycle.select(rows);repeated=np.repeat(selected,slots)
+        af,ac,_=context_batch(pack,p_values,repeated,shape_values,recipe,device)
+        natural=torch.tensor(p_values[selected],dtype=torch.float32,device=device)
+        target=multi.make_targets(natural,'p_grid',grid=coverage['grid']);z=torch.randn(tuple(ac.shape),generator=aux_rng)
+        for a in (repeated.astype(np.int64),np.asarray(z.shape,dtype=np.int64),z.numpy()):hashes['aux_noise_plan'].update(a.tobytes())
+        target_hash.update(target.detach().cpu().numpy().tobytes())
+        aux=weighted_auxiliary_backward(model,schedule,af,target,z.to(device),presence[:len(selected)],teacher.batch(repeated),
+            teacher.physical_batch(repeated),cfg,physics,coverage)
+        stat['auxiliary_histories']+=aux['histories'];stat['auxiliary_requests']+=aux['total'];stat['present_histories']+=aux['present_histories']
+        stat['target_eligible']+=aux['target_eligible'];stat['positive_target_floor']+=aux['positive_floor'];stat['floor_sum']+=aux['floor_sum']
+        stat['supported']+=aux['supported'];stat['geometry_supported']+=aux['geometry_supported'];reasons.update(aux['reasons'])
+        stat['point_sum']+=aux['point_sum'];stat['numeric_sum']+=aux['numeric']
+        stat['PET_numeric_sum']+=aux['PET_numeric'];stat['PET_supported']+=aux['PET_supported'];stat['PET_error_sum']+=aux['PET_error_sum']
+        for key in ('road_events','speed_events','forward_NFE','backward_NFE'):stat[key]+=aux[key]
+        stat['road_loss_sum']+=aux['road_loss'];stat['speed_loss_sum']+=aux['speed_loss']
+        norm=torch.nn.utils.clip_grad_norm_(model.parameters(),cfg['gradient_clip_norm'])
+        if not bool(torch.isfinite(norm)):raise FloatingPointError('nonfinite combined gradient')
+        stat['gradient_norm_max']=max(stat['gradient_norm_max'],float(norm));optimizer.step();update_adapter_ema(ema,model,cfg['EMA_decay'])
+        stat['updates']+=1;stat['base_loss_scenes']+=len(rows);stat['p_dropped']+=int((~present).sum())
+        if progress and stat['updates']%10==0:progress(dict(recipe=recipe,updates=stat['updates'],seconds=time.perf_counter()-started))
+    stat.update(randomness={k:h.hexdigest() for k,h in hashes.items()},targets_sha256=target_hash.hexdigest(),
+        order_sha256=hashlib.sha256(order.astype(np.int64).tobytes()).hexdigest(),geometry_reasons=dict(reasons),
+        all_base_loss_rows_retained=stat['base_loss_scenes']==len(p_values),
+        all_request_point_MAE=stat['point_sum']/stat['auxiliary_requests'],wall_seconds=time.perf_counter()-started)
+    return stat
+def train(binding,recipe,smoke=False):
+    policy=read_policy(binding)
+    if recipe not in policy['recipes']:raise ValueError('wrong recipe')
+    device=old.configure(policy);cfg=policy['training'];torch.manual_seed(cfg['seed'])
+    source=load_inputs(policy,device);shape_values,context_binding=context_values(policy,binding,source)
+    kw={k:source['checkpoint']['architecture'][k] for k in old.ARCH_KEYS}
+    model=RulerContextPercentileDenoiser(**kw,context_hidden_dim=policy['context']['hidden_dim'],dynamic_bottleneck=policy['dynamic_bottleneck'])
+    resumed=torch.load(old.verify_binding(policy['resume_checkpoint']),map_location='cpu')
+    if (resumed['protocol']!=previous.PROTOCOL or resumed['recipe']!='full_chain' or resumed['epoch']!=policy['resume_epoch']
+            or resumed['smoke'] or not resumed['EMA'] or resumed['data']!=source['base']['data']
+            or resumed['labels_manifest']!=source['base']['labels_manifest']):
+        raise ValueError('wrong continuation checkpoint')
+    old.check_codes(resumed['code_sha256'])
+    model.load_state_dict(resumed['state_dict'],strict=True);model.to(device)
+    groups=model.finetuning_groups(cfg['core_learning_rate'],cfg['adapter_learning_rate'])
+    trainable=sum(v.numel() for v in model.parameters() if v.requires_grad)
+    initial_buffers={k:v.detach().cpu().clone() for k,v in model.named_buffers()}
+    if not all(torch.equal(v.detach().cpu(),resumed['state_dict'][k]) for k,v in model.state_dict().items()):
+        raise ValueError('full-generator warm start changed initial tensors')
+    ema=copy.deepcopy(model).requires_grad_(False)
+    schedule=old.CosineDiffusionSchedule(100).to(device)
+    root=old.resolve(policy['output_root'])/(recipe+'_smoke' if smoke else recipe);root.mkdir(parents=True,exist_ok=False)
+    freeze=old.write_json(root/'freeze_before_training.json',dict(protocol=PROTOCOL,policy=binding,
+        resolved_policy=policy,recipe=recipe,smoke=smoke,initial_state_sha256=old.state_hash(model),
+        context=context_binding,code_sha256=source['codes'],trainable_parameters=trainable,resume_checkpoint=policy['resume_checkpoint'],
+        OOF_p_replay_error=source['teacher'].replay_max_error,STOP_CAL_AUDIT_observations_accessed=False))
+    optimizer=torch.optim.AdamW(groups,weight_decay=cfg['weight_decay'])
+    streams=old.PairedStreams(cfg['seed'],cfg['p_dropout_seed']);rng=torch.Generator().manual_seed(cfg['terminal_noise_seed'])
+    speed,strata=speed_strata(source['teacher'].physical['history'],source['pack']['agent_mask'],source['pack']['role'])
+    slow_cycle=SlowHistoryCycle(source['pack']['recording_id'],strata,seed=policy['history_sampling']['seed'])
+    checkpoints={};restart_states={};started=time.perf_counter()
+    def save(epoch):
+        for candidate in (model,ema):
+            if any(not torch.equal(v.detach().cpu(),initial_buffers[k]) for k,v in candidate.named_buffers()):
+                raise ValueError('fixed generator buffers changed')
+        path=root/('ema_epoch_%03d.pt'%epoch)
+        data=source['data'];base=source['base']
+        checkpoint=dict(protocol=PROTOCOL,policy=binding,recipe=recipe,epoch=epoch,smoke=smoke,EMA=True,
+            state_dict={k:v.detach().cpu().clone() for k,v in ema.state_dict().items()},architecture=ema.architecture_config(),
+            schedule=schedule.as_dict(),prediction_type='v',data=base['data'],labels_manifest=base['labels_manifest'],
+            parent_checkpoint=policy['parent_checkpoint'],resume_checkpoint=policy['resume_checkpoint'],risk_cache=policy['risk_cache'],basis=data['basis'],
+            coefficient_normalizer=data['coefficient_normalizer'],history_normalizer=data['history_normalizer'],
+            context=context_binding,code_sha256=source['codes'])
+        with path.open('xb') as handle:torch.save(checkpoint,handle)
+        checkpoints[str(epoch)]=dict(path=str(path),sha256=old.sha256(path))
+    save(0)
+    with (root/'epochs.jsonl').open('x') as log:
+        for epoch in range(1,(1 if smoke else cfg['epochs'])+1):
+            record=train_epoch(model,ema,schedule,optimizer,source['pack'],source['p'],source['cache'],source['teacher'],
+                streams,rng,cfg,policy['physics'],policy['coverage'],recipe,device,shape_values=shape_values,slow_cycle=slow_cycle,
+                max_updates=1 if smoke else None,progress=lambda r:print(json.dumps(dict(epoch=epoch,**r)),flush=True))
+            record.update(epoch=epoch,recipe=recipe)
+            log.write(json.dumps(record,sort_keys=True)+'\n');log.flush()
+            if epoch in cfg['snapshot_epochs'] or smoke:save(epoch)
+            state_path=root/('training_state_epoch_%03d.pt'%epoch)
+            state=dict(protocol=PROTOCOL,policy=binding,epoch=epoch,smoke=smoke,architecture=model.architecture_config(),
+                model_state={k:v.detach().cpu().clone() for k,v in model.state_dict().items()},
+                EMA_state={k:v.detach().cpu().clone() for k,v in ema.state_dict().items()},
+                optimizer_state=optimizer.state_dict(),paired_streams_state=paired_stream_state(streams),
+                auxiliary_generator_state=rng.get_state(),slow_history_cycle_state=slow_cycle_state(slow_cycle),
+                torch_CPU_RNG=torch.get_rng_state(),
+                torch_device_RNG=torch.cuda.get_rng_state(device) if device.type=='cuda' else None,
+                data=source['base']['data'],labels_manifest=source['base']['labels_manifest'],context=context_binding,
+                code_sha256=source['codes'],exact_restart_not_yet_tested=True)
+            with state_path.open('xb') as handle:torch.save(state,handle)
+            restart_states[str(epoch)]=dict(path=str(state_path),sha256=old.sha256(state_path))
+            print(json.dumps(record,sort_keys=True),flush=True)
+    old.check_codes(source['codes'])
+    result=dict(protocol=PROTOCOL,status='smoke_complete' if smoke else 'complete',policy=binding,
+        recipe=recipe,smoke=smoke,epochs_completed=1 if smoke else cfg['epochs'],checkpoints=checkpoints,freeze=freeze,
+        code_sha256=source['codes'],architecture=ema.architecture_config(),trainable_parameters=trainable,
+        data=source['base']['data'],labels_manifest=source['base']['labels_manifest'],parent_checkpoint=policy['parent_checkpoint'],resume_checkpoint=policy['resume_checkpoint'],
+        epochs=dict(path=str(root/'epochs.jsonl'),sha256=old.sha256(root/'epochs.jsonl')),
+        context=context_binding,wall_seconds=time.perf_counter()-started,parent_parameters_unchanged=False,generator_core_updates_allowed=True,restart_states=restart_states,
+        production_default_changed=False,STOP_CAL_AUDIT_observations_accessed=False)
+    print(json.dumps(dict(training_complete=old.write_json(root/'result.json',result))),flush=True)
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--policy',default='configs/natural_percentile/joint_generator_finetune_v2.json')
+    parser.add_argument('--policy-sha256',default=POLICY_SHA);parser.add_argument('--smoke',action='store_true')
+    args=parser.parse_args();train(dict(path=args.policy,sha256=args.policy_sha256),'joint_generator',args.smoke)
+
+

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+/build/
+/dist/
+.DS_Store
+# data and results stay local (only at the repository root, not pcontrol/data)
+/highD/
+/data/
+/outputs/
+/external_baselines/

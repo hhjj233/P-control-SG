@@ -1,0 +1,20 @@
+{
+  "protocol": "natural_dynamic_actor_risk_adapter_performance_v1",
+  "base_policy": {"path": "configs/natural_percentile/target_ruler_pilot_v1.json", "sha256": "09c54f4dad0d3ccd572e0560fb6e8d7cedc6707c923a1442f44badda432acf9d"},
+  "resume_checkpoint": {"path": "outputs/natural_percentile/target_ruler_pilot_v1_20260913/target_ruler/ema_epoch_003.pt", "sha256": "a84efc7f46af93fa299c6c387918e76bc162b156184792c98419cce3baec7e9c"},
+  "FIT_probe": {"path": "outputs/natural_percentile/dynamic_risk_probe_v1_20260913/result.json", "sha256": "b65fc68b769f0c7c0fa8f05bb68235bff948393d5900aa252ba45006a4acf7df"},
+  "previous_STOP": {"path": "outputs/natural_percentile/target_ruler_pilot_v1_20260913/STOP_evaluation/results.json", "sha256": "82a643156ae928fba14962c5db44ebcbf1c64b00e2a6dd991104839eb3f1a562"},
+  "recipes": ["dynamic_risk"],
+  "dynamic_bottleneck": 32,
+  "training_overrides": {"epochs": 3, "snapshot_epochs": [0, 1, 3], "learning_rate": 0.0003, "numeric_weight": 2.0, "seed": 20261331, "p_dropout_seed": 20261332, "terminal_noise_seed": 20261333},
+  "physics_overrides": {"road_weight": 2.0, "speed_weight": 2.0},
+  "history_sampling": {"auxiliary_H": "two_random_base_rows_plus_one_creep_plus_one_slow", "seed": 20261334, "natural_base_rows_all_retained": true, "uses_future_or_success_for_selection": false},
+  "runtime": {"device": "cuda:0", "threads": 2, "TF32": false},
+  "parameter_update_scope": ["ruler_encoder", "target_projection", "dynamic_blocks"],
+  "combined_performance_optimization_not_single_factor_ablation": true,
+  "CDF_or_observed_labels_changed": false,
+  "new_robustness_or_multiseed_experiment": false,
+  "inference_postprocessing_or_future_oracle": false,
+  "production_default_changed": false,
+  "output_root": "outputs/natural_percentile/dynamic_risk_pilot_v1_20260913"
+}

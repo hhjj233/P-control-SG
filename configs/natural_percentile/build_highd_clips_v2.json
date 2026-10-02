@@ -1,0 +1,19 @@
+{
+  "protocol": "natural_highd_variable_context_event_clips_v2",
+  "source_origin": "natural_observation",
+  "natural_only": true,
+  "allow_simulated_futures": false,
+  "raw_root": "highD/data",
+  "split_path": "configs/highd_split_v1.json",
+  "output_root": "outputs/natural_percentile/clips_v2_20260908",
+  "recordings": ["01", "02", "03", "04", "05", "06", "08", "10", "11", "12", "17", "20", "22", "25", "26", "28", "29", "36", "40", "41", "43", "46", "49", "51", "52", "53", "55", "57", "59"],
+  "grid_stride_raw_frames": 25,
+  "preferred_pre_entry_s": 3.0,
+  "context_longitudinal_radius_m": 120.0,
+  "min_context_agents": 3,
+  "max_context_agents": null,
+  "data_protocol_path": "configs/natural_percentile/clip_data_protocol_v2.json",
+  "data_protocol_sha256": "2e229c41a4f85a50f414f8384a16a56d65a4ebd980ff94645561a2ea847be59a",
+  "development_split_path": "configs/natural_percentile/clip_development_split_v2.json",
+  "development_split_sha256": "d0635b8ccfa7773277467247f475025b84f871b60134ef080acbd5958f0e1efe"
+}

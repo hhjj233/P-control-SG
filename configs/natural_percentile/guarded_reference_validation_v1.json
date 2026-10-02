@@ -1,0 +1,16 @@
+{
+  "protocol": "guarded_reference_validation_v1",
+  "guarded_study": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/group_guarded_refinement_v1/result.json", "sha256": "5f2052c67aec0f7ae49505691ea1eb5ce62412f2d3226fcd0be642d593c1788c"},
+  "guarded_audit": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/group_guarded_refinement_v1/independent_audit.json", "sha256": "c272d516f11ecf667a056ad631cacfcd3f62ff2ccfdef6369f7586af7f728199"},
+  "previous_validation": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/reference_validation_v1/result.json", "sha256": "544dd2cb2ec1a079aef05f9703e67cb2cf39ace584e565bd96af1738df66d714"},
+  "previous_audit": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/reference_validation_v1/independent_audit.json", "sha256": "e231cde3bc81f3798d23870f5c52be2cd6afc52f4b7c6dd85c7c0c436919bf6a"},
+  "calibration_policy": "exactly_reuse_previous_frozen_families_ridges_selectors_and_guards",
+  "reuse_requires": ["same_architecture", "exact_all_state_tensor_hash", "same_data", "same_normalizer", "unchanged_forward_and_calibration_code"],
+  "primary": {"arm": "M2_TimeAttn", "rule": "group_guarded", "calibration_selector": "count_balanced"},
+  "all_new_CAL_choices_frozen_before_new_AUDIT_predictions": true,
+  "reused_AUDIT_results_not_new_measurements": true,
+  "main_reference_may_freeze_early_only_with_exact_audited_reuse": true,
+  "protected_data_access": false,
+  "source_observations": "unchanged_complete_natural_highD_cache",
+  "output_root": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_reference_validation_v1"
+}

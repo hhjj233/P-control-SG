@@ -1,0 +1,18 @@
+{
+  "protocol": "natural_GP_precision_band_continuation_v1",
+  "base_policy": {"path": "configs/natural_percentile/joint_generator_finetune_v2.json", "sha256": "ba7918fb2b90338b3f1e28fb8d2737331636b152dc7ee5e97c58202bd9b8c490"},
+  "resume_training_state": {"path": "outputs/natural_percentile/joint_generator_finetune_v2_20260913/joint_generator/training_state_epoch_006.pt", "sha256": "a29dc479df9df24416a64c6e35be8415a9b5505714e1fb670282cac357c0ba79"},
+  "resume_completed_epochs": 6,
+  "reference_setting": {"path": "outputs/natural_percentile/joint_generator_finetune_v2_20260913/non_EMA_CFG_epoch_006/results.json", "sha256": "3faeb1b8f8e93098d17bc777034e8255d744798294c2f9b70541659d86ced294"},
+  "recipes": ["precision_band"],
+  "training_overrides": {"epochs": 6, "snapshot_epochs": [0, 1, 3, 6], "terminal_CFG_scale": 3.0, "Fine_band_weight": 0.1, "Fine_band_temperature": 0.01},
+  "evaluation_CFG_scale": 3.0,
+  "Fine_tolerance_unchanged": 0.05,
+  "restored_state": ["raw_generator", "EMA_generator", "optimizer", "paired_streams", "auxiliary_noise_rng", "low_speed_cycle", "Torch_rng"],
+  "original_rank_PET_physics_and_natural_losses_retained": true,
+  "same_natural_observations_OOF_labels_CDF_and_architecture": true,
+  "inference_future_oracle_or_postcorrection": false,
+  "new_robustness_or_multiseed_experiment": false,
+  "production_default_changed": false,
+  "output_root": "outputs/natural_percentile/precision_band_continuation_v1_20260913"
+}

@@ -1,0 +1,44 @@
+{
+  "protocol": "natural_P_conditioned_directional_sampling_guidance_v1",
+  "design": "P condition plus sampling-time risk gradient guidance, no true future input",
+  "base_policy": {
+    "path": "configs/natural_percentile/success_preserving_precision_v1.json",
+    "sha256": "606cd7b4a8cbe8aa9ae176b83ed677adf472ffeb6bf735afb96f909606b8b0a7"
+  },
+  "precision_reference": {
+    "path": "outputs/natural_percentile/wide_CFG_attenuation_v1_20260913/scale_2.5/results.json",
+    "sha256": "24dd5ff02384100ae45a430bd7abb926e13861416374832a879f40d3e901b2d3"
+  },
+  "selected_FIT_profile": {
+    "path": "outputs/natural_percentile/directional_guidance_FIT_v1_20260913/strong_H12/result.json",
+    "sha256": "f4f25cf771566a903134a88173810deb7e5c700918973c8f6985f53aab2e9173"
+  },
+  "zero_guidance_replay": {
+    "path": "outputs/natural_percentile/directional_guidance_FIT_v1_20260913/disabled_H3/result.json",
+    "sha256": "36f463c54601fbdb7ca3eb451505a4d11d5a3644b9df7380bab0d56f44ff9321"
+  },
+  "guidance": {
+    "total_steps": 50,
+    "last_steps": 25,
+    "inner_steps": 4,
+    "strength": 0.8,
+    "position_step_cap_m": 0.5,
+    "p_stop_tolerance": 0.01,
+    "bootstrap": true,
+    "precondition": true,
+    "probe_position_m": 0.0001
+  },
+  "physical_metric": "mean(delta_xy^2 +0.25 delta_v^2 +0.0625 delta_a^2); eigenvalue floor1e-4 of largest",
+  "CFG_scale": 2.5,
+  "K": 1,
+  "P_grid": [0.1, 0.5, 0.9],
+  "development_histories": 12,
+  "requests": 36,
+  "Fine_tolerance": 0.05,
+  "target_Fine_count": 25,
+  "model_and_CDF_frozen": true,
+  "no_new_STOP_CAL_AUDIT_observations": true,
+  "no_per_request_configuration_selection": true,
+  "no_post_sampler_correction": true,
+  "output_root": "outputs/natural_percentile/percentile_sampling_guidance_v1_20260913"
+}

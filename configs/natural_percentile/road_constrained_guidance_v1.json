@@ -1,0 +1,46 @@
+{
+  "protocol": "natural_P_guidance_road_efficiency_v1",
+  "previous_policy": {
+    "path": "configs/natural_percentile/percentile_sampling_guidance_v1.json",
+    "sha256": "013672452500658d148d06e811f375a75e307e1461f644256a0c167a4008e58f"
+  },
+  "previous_result": {
+    "path": "outputs/natural_percentile/percentile_sampling_guidance_v1_20260913/results.json",
+    "sha256": "fcfa0fa577053cb671f52108f00bdc22b96c3b07b32fc0a94c916977baad5bcb"
+  },
+  "previous_audit": {
+    "path": "outputs/natural_percentile/percentile_sampling_guidance_v1_20260913/numeric_audit.json",
+    "sha256": "c6b6ec2a721d0a5098e4d9bee74811a67c27bfb7ee310e5322a0f12a07289151"
+  },
+  "FIT_profiles": {
+    "guarded_full": {
+      "path": "outputs/natural_percentile/road_guidance_FIT_v1_20260913/full_H12/result.json",
+      "sha256": "3ae8cc99f41ed5da52b362a845398e5d03030c11d7193e60481c6f147fc24aa1"
+    },
+    "guarded_fast": {
+      "path": "outputs/natural_percentile/road_guidance_FIT_v1_20260913/late_H12/result.json",
+      "sha256": "ef7d642ca5179c4f443e6872a7d9b0c7ff58015bf1896e6de83382647599fe33"
+    }
+  },
+  "profiles": {
+    "reference_guided": {"total_steps": 50, "last_steps": 25, "inner_steps": 4, "strength": 0.8, "position_step_cap_m": 0.5, "p_stop_tolerance": 0.01, "bootstrap": true, "precondition": true, "probe_position_m": 0.0001},
+    "guarded_full": {"total_steps": 50, "last_steps": 25, "inner_steps": 4, "strength": 0.8, "position_step_cap_m": 0.5, "p_stop_tolerance": 0.01, "bootstrap": true, "precondition": true, "probe_position_m": 0.0001, "road_inset_m": 0.002},
+    "guarded_fast": {"total_steps": 50, "last_steps": 15, "inner_steps": 6, "strength": 0.8, "position_step_cap_m": 0.5, "p_stop_tolerance": 0.01, "bootstrap": true, "precondition": true, "probe_position_m": 0.0001, "road_inset_m": 0.002}
+  },
+  "FIT_selection": "retain33 Fine and no added road/overlap or negative-vx scenes; choose fewer PET queries among passes; full profile retained as prespecified matched-window control",
+  "primary_candidate": "guarded_fast",
+  "research_candidate_selection": "among Fine>=28, road<=3, overlap<=5, zero negative-vx and zero QP failures, select fewest PET calls then lower P_MAE; else retain reference and report tradeoffs; no production default change",
+  "K": 1,
+  "CFG_scale": 2.5,
+  "P_grid": [0.1, 0.5, 0.9],
+  "requests": 36,
+  "Fine_tolerance": 0.05,
+  "in_sampling_road_projection_explicit": true,
+  "post_sampler_correction": false,
+  "CDF_model_and_reference_unchanged": true,
+  "generator_weights_unchanged": true,
+  "no_new_STOP_CAL_AUDIT_observations": true,
+  "no_per_request_configuration_selection": true,
+  "production_default_changed": false,
+  "output_root": "outputs/natural_percentile/road_constrained_guidance_v1_20260913"
+}

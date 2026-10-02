@@ -1,0 +1,27 @@
+{
+  "protocol": "natural_multi_P_coverage_paired_training_v1",
+  "base_policy": {"path": "configs/natural_percentile/terminal_physics_pilot_v2.json", "sha256": "c8b5f58840198675b6f64f31ebd36f8d6674b3a98cf36cdfd2c3e937f37dcdcd"},
+  "previous_STOP": {"path": "outputs/natural_percentile/terminal_physics_pilot_v2_20260912/STOP_cpu_evaluation_v1/results.json", "sha256": "2a0cdecf079832a4b4ac5f69cb064a00709746000d6ee6061a1ec8503c1cd39c"},
+  "historical_comparator": "terminal_physics_e3",
+  "recipes": ["natural_multi_noise", "p_grid"],
+  "coverage": {
+    "slots_per_history": 3, "grid": [0.1, 0.5, 0.9],
+    "noise": "three_independent_z_per_H_identical_slotwise_between_arms",
+    "interior_margin": 0.0001, "atom_tolerance": 0.0000001,
+    "target_unchanged": true,
+    "ineligible_target": "mask_only_numeric_loss_keep_physics_and_all_diagnostics",
+    "numeric_reduction": "valid_slot_mean_per_history_then_mean_over_all_present_histories_including_unsupported",
+    "natural_ground_truth_relabelled": false,
+    "history_selection_changed": false,
+    "low_speed_resampling": false,
+    "estimated_scalar_eligibility_not_physical_feasibility": true
+  },
+  "runtime": {"device": "cpu", "threads": 2, "TF32": false},
+  "training_budget": {"epochs": 3, "base_batch": 128, "histories_per_aux_batch": 4, "aux_requests_per_batch": 12, "updates_per_epoch": 78},
+  "same_between_new_arms": ["parent_weights", "architecture", "FIT9913_and_labels", "history_order", "base_t_noise_and_p_drop", "auxiliary_H_and_slot_noise", "all_base_losses", "grouped_loss_reduction", "physics_weights", "optimizer_EMA_and_updates", "evaluation_H_p_z_and_gates"],
+  "historical_results_are_secondary_not_compute_matched": true,
+  "CDF_changed": false,
+  "no_inference_guidance_or_postprocessing": true,
+  "automatic_hyperparameter_search": false,
+  "output_root": "outputs/natural_percentile/multi_p_pilot_v1_20260913"
+}

@@ -1,0 +1,38 @@
+{
+  "protocol": "natural_low_speed_reverse_severity_paired_v1",
+  "base_policy": {"path": "configs/natural_percentile/multi_p_pilot_v1.json", "sha256": "56404622fadd8dc4477356e13130d2f94e442d816839d1956894599becb0c081"},
+  "FIT_probe": {"path": "outputs/natural_percentile/low_speed_probe_v1_20260913/result.json", "sha256": "3d1836df00035c63eaab8575b0a314bb74158126f03891f330e526fd76798b48"},
+  "previous_STOP": {"path": "outputs/natural_percentile/multi_p_pilot_v1_20260913/STOP_evaluation/results.json", "sha256": "f2527cfd413984f410f69b351ded9c022e5a19b146395c5602683a9e63034702"},
+  "historical_comparator": "p_grid_e3",
+  "recipes": ["slow_tail", "slow_reverse"],
+  "history_sampling": {
+    "first_two": "first_two_original_random_base_rows",
+    "third": "one_FIT_history_with_minimum_actual_t0_vx_le_2",
+    "fourth": "one_FIT_history_with_2_lt_minimum_actual_t0_vx_le_5",
+    "cycle_seed": 20261301,
+    "balance_recordings_within_speed_stratum": true,
+    "prevent_duplicate_histories_within_aux_batch": true,
+    "future_or_generated_outcomes_used": false,
+    "presence": "reuse_four_independent_base_slot_p_presence_draws; slow_rows_not_claimed_to_be_base_rows",
+    "creep_pool_has_one_recording_only": true
+  },
+  "reverse_severity": {
+    "weight": {"slow_tail": 0.0, "slow_reverse": 0.1},
+    "components": ["scene_peak_additional_negative_vx", "worst_actor_accumulated_additional_backward_x"],
+    "speed_scale_mps": 1.0,
+    "distance_scale_m": 1.0,
+    "dt": 0.04,
+    "existing_t0_negative_vx_allowance": true,
+    "no_vehicle_count_dilution": true,
+    "old_road_and_tail_speed_losses_retained": true,
+    "trajectory_modified": false,
+    "hard_feasibility_claimed": false
+  },
+  "weight_choice": "0.1 times FIT probe median unweighted gradient ratio 9.6728; chosen before training, no STOP weight search",
+  "base_FIT_population_or_labels_changed": false,
+  "p_grid_and_target_eligibility_unchanged": true,
+  "fine_preservation_objective_not_added_this_ablation": true,
+  "epochs": 3,
+  "runtime": {"device": "cpu", "threads": 2, "TF32": false},
+  "output_root": "outputs/natural_percentile/low_speed_training_v1_20260913"
+}

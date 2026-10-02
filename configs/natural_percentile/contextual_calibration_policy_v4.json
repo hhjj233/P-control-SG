@@ -1,0 +1,49 @@
+{
+  "protocol": "natural_contextual_continuous_calibration_policy_v4",
+  "scope": {
+    "natural_observations_only": true,
+    "reuse_v3_frozen_bases": true,
+    "generator_training": false,
+    "oof_label_generation": false,
+    "original_protected_val_test_used": false,
+    "audit_status": "previously_inspected_internal_development_audit"
+  },
+  "selection": {
+    "families": ["global", "semantic", "distribution", "context"],
+    "ridge_grid": [0.001, 0.01, 0.1, 1.0, 10.0],
+    "a_bounds": [0.25, 4.0],
+    "b_bounds": [-4.0, 4.0],
+    "maxiter": 1000,
+    "initializations": ["identity", "fold_train_global"],
+    "fit_objective": "event_mean_mixed_nll_plus_slope_ridge",
+    "cross_validation": "leave_one_CAL_recording_out",
+    "cv_score": "equal_recording_mean_mixed_nll",
+    "selection_rule": "one_standard_error_prefer_simple_family_then_stronger_ridge",
+    "standard_error_unit": "four_CAL_recording_scores",
+    "feature_scaler_fit": "CAL_training_fold_only_then_full_CAL_for_final_refit",
+    "allowed_features": ["semantic", "log1p_agent_count", "conditional_continuous_mean_over_cap", "log_conditional_continuous_sd_over_cap"],
+    "recording_id_feature": false,
+    "observed_outcome_feature": false,
+    "endpoint_atoms_fixed": true
+  },
+  "evaluation": {
+    "quantiles": [0.1, 0.3, 0.5, 0.7, 0.9],
+    "semantic_groups": ["left", "right"],
+    "agent_count_groups": {"N3_5": [3, 5], "N6_8": [6, 8], "N9_plus": [9, null]},
+    "supported_group_min_events": 100,
+    "supported_group_min_recordings": 3,
+    "pooled_max_atom_aware_quantile_gap": 0.03,
+    "supported_group_max_atom_aware_quantile_gap": 0.05,
+    "central80_coverage_range": [0.75, 0.85],
+    "max_normalized_crps_ratio_to_raw": 1.10,
+    "max_median_mae_ratio_to_raw": 1.10,
+    "max_crps64_128_difference": 0.000001,
+    "endpoint_atoms_must_be_bitwise_unchanged": true,
+    "report_per_recording": true,
+    "report_recording_macro_scores": true,
+    "insufficient_support_is_not_a_pass": true,
+    "per_history_conditional_guarantee_claimed": false,
+    "primary_architecture": "M2_ensemble",
+    "matched_comparator": "M1_ensemble"
+  }
+}

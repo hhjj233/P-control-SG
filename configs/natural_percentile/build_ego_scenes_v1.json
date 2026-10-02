@@ -1,0 +1,70 @@
+{
+  "protocol": "natural_highd_ego_scene_build_v1",
+  "raw_root": "highD/data",
+  "input": {
+    "source_manifest": {
+      "path": "outputs/natural_percentile/clips_v2_20260908/manifest.json",
+      "sha256": "4c0b40928f855cf6367c9e118c534ef2397a72ee67010a72c3382d8b992bfe4f"
+    },
+    "original_split": {
+      "path": "configs/highd_split_v1.json",
+      "sha256": "7829e4ac15227688330bf4d6d54c2e9d353d7c0546118867b4d97b4a6432b904"
+    },
+    "roles": {
+      "path": "configs/natural_percentile/ego_scene_roles_v1.json",
+      "sha256": "df42ebfe9bd8283e9d65d60be333244eb9648bca2e355fbc551f7fea1188b2d8"
+    },
+    "policy": {
+      "path": "configs/natural_percentile/ego_scene_policy_v1.json",
+      "sha256": "7ac3114317970a545962b4dc49c4a6dacead64422d9d7b05046c38edf9628968"
+    }
+  },
+  "recordings": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "08",
+    "10",
+    "11",
+    "12",
+    "17",
+    "20",
+    "22",
+    "25",
+    "26",
+    "28",
+    "29",
+    "36",
+    "40",
+    "41",
+    "43",
+    "46",
+    "49",
+    "51",
+    "52",
+    "53",
+    "55",
+    "57",
+    "59"
+  ],
+  "selection": {
+    "hash_salt": "natural_ego_scene_v1",
+    "max_scenes_per_recording": 512
+  },
+  "measurement": {
+    "sample_period": 0.04,
+    "window": [
+      0,
+      6.96
+    ],
+    "cap_seconds": 4
+  },
+  "runtime": {
+    "maximum_parallel_recording_workers": 8,
+    "threads_per_worker": 1
+  },
+  "output_root": "outputs/natural_percentile/ego_scene_v1_20260910"
+}

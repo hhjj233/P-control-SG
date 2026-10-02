@@ -1,0 +1,82 @@
+{
+  "protocol": "natural_temporal_relational_CDF_development_pilot_v1",
+  "scope": "development_feasibility_only_not_production_reference",
+  "reference_prepared": {
+    "path": "outputs/natural_percentile/scene_crps_pilot_v1_20260910/prepared.json",
+    "sha256": "d81c62b7459e71b6d4533b7c06e726afe6c797a6170cacfac2ae7fa78eccd613"
+  },
+  "parent_selection": {
+    "path": "outputs/natural_percentile/scene_refinement_v1_20260910/base_selection_before_CAL.json",
+    "sha256": "c44718cfb98e38b3b35fe2383a311167b19d4ba714939d75e00190d03f60136c"
+  },
+  "parent_result": {
+    "path": "outputs/natural_percentile/scene_refinement_v1_20260910/training/highN/result.json",
+    "sha256": "d40bd62ecdf57058356fa88735b20516c256acfffc5c5a95fad632b2067e8590"
+  },
+  "parent_checkpoint": {
+    "path": "outputs/natural_percentile/scene_refinement_v1_20260910/training/highN/best.pt",
+    "sha256": "c214085f32754612d083e508dc17603c31b178640b16343ae1fc2ebd36fc8c6e"
+  },
+  "allowed_data_roles": ["FIT", "STOP"],
+  "arms": ["M2_continue", "M2_temporal", "M2_temporal_context"],
+  "model": {
+    "hidden_dim": 64,
+    "heads": 4,
+    "bins": 64,
+    "cap_seconds": 4.0,
+    "zero_atom_enabled": true,
+    "parent_initial_equivalence_absolute_tolerance": 1e-12,
+    "parent_CPU_STOP_replay_absolute_tolerance_seconds": 1e-6,
+    "shared_FIT_normalizer": true,
+    "parent_parameters_trainable": true
+  },
+  "training": {
+    "epochs": 12,
+    "snapshot_epochs": [0, 6, 12],
+    "batch_size": 128,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "gradient_clip_norm": 1.0,
+    "seed": 20260912,
+    "loss": "analytic_CRPS_divided_by_4_seconds",
+    "highN_threshold": 9,
+    "highN_weight_multiplier": 2.0,
+    "weight_normalization": "fixed_FIT_population_mean_1_not_batch_mean",
+    "sampling": "all_FIT_once_per_epoch_same_seed_order_across_arms",
+    "early_stopping": false,
+    "scheduler": "none"
+  },
+  "evaluation": {
+    "role": "STOP",
+    "epochs": "every_epoch_including_zero",
+    "save_row_predictions_every_epoch": true,
+    "quantile_levels": [0.1, 0.3, 0.5, 0.7, 0.9],
+    "thresholds_seconds": [0.25, 0.5, 1.0, 2.0, 3.0],
+    "selection_snapshot_epochs": [6, 12],
+    "selection_score": "0.5_overall_CRPS_plus_0.5_N_ge_9_CRPS",
+    "overall_parent_guard_ratio": 1.0,
+    "highN_parent_guard_ratio": 1.0,
+    "parent_fallback": true,
+    "claim": "adaptive_STOP_development_diagnostics_not_conditional_calibration_or_blind_test"
+  },
+  "runtime": {
+    "device": "cuda:0",
+    "threads": 2,
+    "interop_threads": 1,
+    "cuda_matmul_TF32": false,
+    "cudnn_TF32": false,
+    "cudnn_benchmark": false,
+    "automatic_mixed_precision": false,
+    "deterministic_algorithms": true
+  },
+  "prohibited_actions": [
+    "raw_CSV_or_protected_val_test_recording18_access",
+    "CAL_or_AUDIT_array_decode",
+    "calibration_warp_fitting",
+    "generator_training_or_inference",
+    "OOF_label_replacement",
+    "production_reference_promotion",
+    "overwrite_existing_artifacts"
+  ],
+  "output_root": "outputs/natural_percentile/temporal_relational_cdf_pilot_v1_20260912"
+}

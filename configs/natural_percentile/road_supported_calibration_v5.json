@@ -1,0 +1,78 @@
+{
+  "protocol": "natural_clip_road_supported_calibration_v5",
+  "execution_scope": "fit_stop_six_record_CAL_then_internal_audit",
+  "input": {
+    "dataset_manifest": {
+      "path": "outputs/natural_percentile/clips_v2_20260908/manifest.json",
+      "sha256": "4c0b40928f855cf6367c9e118c534ef2397a72ee67010a72c3382d8b992bfe4f"
+    },
+    "split_manifest": {
+      "path": "configs/natural_percentile/clip_development_split_v2.json",
+      "sha256": "d0635b8ccfa7773277467247f475025b84f871b60134ef080acbd5958f0e1efe"
+    },
+    "original_split_manifest": {
+      "path": "configs/highd_split_v1.json",
+      "sha256": "7829e4ac15227688330bf4d6d54c2e9d353d7c0546118867b4d97b4a6432b904"
+    },
+    "data_protocol": {
+      "path": "configs/natural_percentile/clip_data_protocol_v2.json",
+      "sha256": "2e229c41a4f85a50f414f8384a16a56d65a4ebd980ff94645561a2ea847be59a"
+    },
+    "extraction_config": {
+      "path": "configs/natural_percentile/build_highd_clips_v2.json",
+      "sha256": "887bf5b3acb98b7b226ec839aa78fd1b75dce5822574ed1678ff914f2b5ca02f"
+    },
+    "roles_manifest": {
+      "path": "configs/natural_percentile/calibration_roles_v5.json",
+      "sha256": "19fa1746d677167f1fce34ad21c593d05518232cc3aa37ff5c9a168ea5c2c0f8"
+    },
+    "calibration_policy": {
+      "path": "configs/natural_percentile/calibration_policy_v5.json",
+      "sha256": "50bef8156b77dd2a6324b2806a7cf467681230fcaa497ccdf46fcbddcd8d0d51"
+    }
+  },
+  "model": {
+    "variants": [
+      "M1",
+      "M2"
+    ],
+    "hidden_dim": 128,
+    "heads": 4,
+    "bins": 64,
+    "cap_seconds": 4,
+    "zero_atom_enabled": true
+  },
+  "training": {
+    "seeds": [
+      20260909,
+      20260910,
+      20260911
+    ],
+    "epochs": 100,
+    "patience": 20,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "weight_decay": 0
+  },
+  "calibration": {
+    "a_bounds": [
+      0.25,
+      4
+    ],
+    "b_bounds": [
+      -4,
+      4
+    ],
+    "objective": "six_record_CAL_LOO_contextual_mixed_NLL",
+    "ensemble": "mean_masses_then_fit",
+    "quadrature_orders": [
+      64,
+      128
+    ]
+  },
+  "runtime": {
+    "device": "cpu",
+    "threads": 1
+  },
+  "output_root": "outputs/natural_percentile/road_supported_calibration_v5_20260909"
+}

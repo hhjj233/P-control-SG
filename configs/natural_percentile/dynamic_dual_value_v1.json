@@ -1,0 +1,19 @@
+{
+  "protocol": "natural_dynamic_rank_and_PET_value_training_v1",
+  "base_policy": {"path": "configs/natural_percentile/dynamic_risk_pilot_v1.json", "sha256": "266e3752c56b50b09f07939f6cfdfa00bf5761b8df483780861c3bf644c30d7c"},
+  "resume_checkpoint": {"path": "outputs/natural_percentile/dynamic_risk_pilot_v1_20260913/dynamic_risk/ema_epoch_003.pt", "sha256": "dab5e96cc4777275d971db19fb49321c9396ba0a87518613cea8c3240884844f"},
+  "previous_STOP": {"path": "outputs/natural_percentile/dynamic_risk_pilot_v1_20260913/STOP_evaluation/results.json", "sha256": "eca2b38a0a137294fcc25c2849ef7b6a5f1572fb37919fd05c0443a51162acdf"},
+  "density_diagnostic": {"path": "outputs/natural_percentile/dynamic_risk_pilot_v1_20260913/preview_epoch001_density_diagnostic.json", "sha256": "b93ee2ee28ca86ca35a9a00d0dcacc7ed4526a96de4d4276faa7e8f8ebd66e7a"},
+  "recipes": ["dynamic_dual"],
+  "training_overrides": {"epochs": 3, "snapshot_epochs": [0, 1, 3], "PET_target_weight": 1.0, "PET_target_beta": 0.05, "seed": 20261341, "p_dropout_seed": 20261342, "terminal_noise_seed": 20261343},
+  "history_sampling_seed": 20261344,
+  "PET_loss": "SmoothL1((current_exact_PET-frozen_OOF_inverse_CDF_target)/4,beta=0.05)",
+  "PET_loss_support": "same_target_eligibility_and_presence; exact_current_geometry_required; current_CDF_density_not_required",
+  "unsupported_capped_or_no_conflict_geometry_has_no_invented_gradient": true,
+  "base_rank_and_physics_losses_retained": true,
+  "architecture_or_natural_labels_or_CDF_changed": false,
+  "no_new_robustness_or_multiseed_study": true,
+  "inference_unchanged": "raw_P_plus_H_CDF_target_condition; DDIM50_CFG4_K1; no_postcorrection",
+  "production_default_changed": false,
+  "output_root": "outputs/natural_percentile/dynamic_dual_value_v1_20260913"
+}

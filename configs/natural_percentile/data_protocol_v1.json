@@ -1,0 +1,87 @@
+{
+  "protocol": "natural_highd_event_reference_pilot_v1",
+  "created_local_date": "2026-09-08",
+  "stage": "P0_P1_data_and_reference_only",
+  "source": "raw_highd_observed_trajectories_only",
+  "raw_data_root": "highD/data",
+  "authorized_recording_roster": "configs/highd_split_v1.json",
+  "authorized_roster_sha256": "7829e4ac15227688330bf4d6d54c2e9d353d7c0546118867b4d97b4a6432b904",
+  "authorized_content_split": "train",
+  "locked_content_splits": [
+    "val",
+    "test"
+  ],
+  "num_agents": 9,
+  "slot_order": [
+    "ego",
+    "front",
+    "front_left",
+    "left",
+    "back_left",
+    "back",
+    "back_right",
+    "right",
+    "front_right"
+  ],
+  "slot_ids": "official_raw_t0_neighbor_IDs_positive_and_unique_fixed_for_entire_window",
+  "raw_hz": 25,
+  "raw_stride_frames": 2,
+  "history_steps": 13,
+  "future_steps_including_t0": 88,
+  "history_duration_s": 0.96,
+  "future_duration_s": 6.96,
+  "t0_grid": "positive_raw_frame_divisible_by_25",
+  "event_modes": [
+    "left_cut_in",
+    "right_cut_in"
+  ],
+  "focal_slots": [
+    2,
+    8
+  ],
+  "event_key": [
+    "recording_id",
+    "ego_raw_ID",
+    "focal_raw_ID",
+    "raw_geometric_lane_entry_frame"
+  ],
+  "event_deduplication": "one_semantically_valid_fully_observed_grid_window_per_event_closest_to_entry_minus_3s_tie_earlier_t0",
+  "event_time_definition": "raw_25Hz_center_crosses_actual_ego_lane_boundary_consistent_with_native_PET_semantics",
+  "window_selection_uses_pet": false,
+  "window_selection_uses_collision": false,
+  "replace_window_when_pet_unobserved": false,
+  "coordinate_transform": "box_centers_relative_to_ego_t0_x_forward_y_left_rigid_reflection_and_translation_only",
+  "road_geometry_features": [
+    "carriageway_outer_right_y_m",
+    "ego_lane_right_y_m",
+    "ego_lane_left_y_m",
+    "carriageway_outer_left_y_m"
+  ],
+  "semantic_road_boundaries": "all_actual_carriageway_boundaries_no_cropping",
+  "vehicle_classes": "cars_and_trucks_as_observed",
+  "neighbor_distance_limit_m": null,
+  "interpolation_of_missing_states": false,
+  "padding_missing_actors": false,
+  "actor_reassignment": false,
+  "lane_center_snapping": false,
+  "trajectory_smoothing": false,
+  "terminal_projection": false,
+  "simulation_or_generated_futures": false,
+  "clustering_or_cross_history_neighbor_reference": false,
+  "pet_metric": "natural_observed_focal_pet_complete_occupancy_v1",
+  "pet_cap_s": 4.0,
+  "pet_time_interpolation": "linear_crossing_time_between_two_observed_positions_native_formula_only",
+  "pet_reference_eligibility": "native_cut_in_semantics_and_both_vehicles_front_and_rear_conflict_point_crossings_observed_in_window",
+  "unobserved_occupancy_is_cap": false,
+  "collision_overrides_pet": false,
+  "conditioning_population": "natural_event_aligned_strict_N9_cut_in_with_complete_track_and_conflict_point_occupancy_observation",
+  "legacy_checkpoint_initialization": false,
+  "generator_training_authorized_in_this_stage": false,
+  "claims_excluded": [
+    "unconditional_natural_traffic_risk_CDF",
+    "event_occurrence_probability",
+    "known_ground_truth_CDF_per_exact_history",
+    "true_natural_percentile_MAE",
+    "final_heldout_test_performance"
+  ]
+}

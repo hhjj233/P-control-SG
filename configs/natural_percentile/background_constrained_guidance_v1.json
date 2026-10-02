@@ -1,0 +1,42 @@
+{
+  "protocol": "natural_P_background_separation_guidance_v1",
+  "previous_policy": {
+    "path": "configs/natural_percentile/road_constrained_guidance_v1.json",
+    "sha256": "8c8078a9d96724a673fb5732cb273421733825a708bdaaa23c2dfce71ffdf10d"
+  },
+  "previous_result": {
+    "path": "outputs/natural_percentile/road_constrained_guidance_v1_20260913/results.json",
+    "sha256": "e6d66c97c0652010f3d9fc056ad302c9e53db803cb5c50f3010306798e842523"
+  },
+  "previous_audit": {
+    "path": "outputs/natural_percentile/road_constrained_guidance_v1_20260913/numeric_audit.json",
+    "sha256": "00e3beb1ad9d5571cab045043760e5f3ba3b18071b65c6163a57fd5c1a24734e"
+  },
+  "FIT_selection": {
+    "path": "outputs/natural_percentile/background_guidance_FIT_v1_20260914/late5_H16/result.json",
+    "sha256": "b9eb644b75ca30b3c2df3ce86a15eb717a0916c746226661ef772482a49d3592"
+  },
+  "FIT_baseline": {
+    "path": "outputs/natural_percentile/background_guidance_FIT_v1_20260914/baseline_H16/result.json",
+    "sha256": "91f86503ef4aea51691bfb6a1c9c6bec59e380a47f9c6a00f82ada593e4a616f"
+  },
+  "profiles": {
+    "reference_fast": {"total_steps": 50, "last_steps": 15, "inner_steps": 6, "strength": 0.8, "position_step_cap_m": 0.5, "p_stop_tolerance": 0.01, "bootstrap": true, "precondition": true, "probe_position_m": 0.0001, "road_inset_m": 0.002},
+    "background_guarded": {"total_steps": 50, "last_steps": 15, "inner_steps": 6, "strength": 0.8, "position_step_cap_m": 0.5, "p_stop_tolerance": 0.01, "bootstrap": true, "precondition": true, "probe_position_m": 0.0001, "road_inset_m": 0.002, "background_last_steps": 5, "background_clearance_m": 0.1, "background_max_passes": 4}
+  },
+  "selection_rule": "accept new research candidate only if Fine>=28, background PL overlaps zero, total native overlaps no worse, no new ego PL overlap, road<=3, zero negative-vx, and zero background/road solver failures; otherwise retain reference",
+  "K": 1,
+  "CFG_scale": 2.5,
+  "P_grid": [0.1, 0.5, 0.9],
+  "requests": 36,
+  "Fine_tolerance": 0.05,
+  "only_natural_training_data": true,
+  "model_CDF_and_risk_definition_unchanged": true,
+  "ego_coefficients_fixed_during_background_projection": true,
+  "background_constraints_scope": "all background pairs; ordered longitudinal separation only during connected PL lateral-overlap windows; all native future times covered",
+  "initial_conflicts_not_erased": true,
+  "post_sampler_correction": false,
+  "no_per_request_configuration_selection": true,
+  "production_default_changed": false,
+  "output_root": "outputs/natural_percentile/background_constrained_guidance_v1_20260914"
+}

@@ -1,0 +1,18 @@
+{
+  "protocol": "natural_clip_continuous_calibration_v3",
+  "execution_scope": "fit_stop_cal_then_internal_audit",
+  "input": {
+    "dataset_manifest": {"path": "outputs/natural_percentile/clips_v2_20260908/manifest.json", "sha256": "4c0b40928f855cf6367c9e118c534ef2397a72ee67010a72c3382d8b992bfe4f"},
+    "split_manifest": {"path": "configs/natural_percentile/clip_development_split_v2.json", "sha256": "d0635b8ccfa7773277467247f475025b84f871b60134ef080acbd5958f0e1efe"},
+    "original_split_manifest": {"path": "configs/highd_split_v1.json", "sha256": "7829e4ac15227688330bf4d6d54c2e9d353d7c0546118867b4d97b4a6432b904"},
+    "data_protocol": {"path": "configs/natural_percentile/clip_data_protocol_v2.json", "sha256": "2e229c41a4f85a50f414f8384a16a56d65a4ebd980ff94645561a2ea847be59a"},
+    "extraction_config": {"path": "configs/natural_percentile/build_highd_clips_v2.json", "sha256": "887bf5b3acb98b7b226ec839aa78fd1b75dce5822574ed1678ff914f2b5ca02f"},
+    "roles_manifest": {"path": "configs/natural_percentile/calibration_roles_v3.json", "sha256": "38e791547901064b82044ea42e7a93ba0b2963018a5ad442f40dc5dc2449251f"},
+    "calibration_policy": {"path": "configs/natural_percentile/calibration_policy_v3.json", "sha256": "3d09405c1317cb7840366807357b1526f9ec0071c5e8137b8b3bce06ff016f75"}
+  },
+  "model": {"variants": ["M1", "M2"], "hidden_dim": 128, "heads": 4, "bins": 64, "cap_seconds": 4.0, "zero_atom_enabled": true},
+  "training": {"seeds": [20260909, 20260910, 20260911], "epochs": 100, "patience": 20, "batch_size": 32, "learning_rate": 0.001, "weight_decay": 0.0},
+  "calibration": {"a_bounds": [0.25, 4.0], "b_bounds": [-4.0, 4.0], "objective": "CAL_only_mixed_NLL", "ensemble": "mean_masses_then_fit", "quadrature_orders": [64, 128]},
+  "runtime": {"device": "cpu", "threads": 1},
+  "output_root": "outputs/natural_percentile/continuous_calibration_v3_20260909"
+}

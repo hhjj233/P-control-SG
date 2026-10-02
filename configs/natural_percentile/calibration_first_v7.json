@@ -1,0 +1,22 @@
+{
+  "protocol": "natural_calibration_first_selection_v7",
+  "input": {
+    "parent_config": {
+      "path": "configs/natural_percentile/road_supported_calibration_v5.json",
+      "sha256": "9382face71139ce73d152b0e03ee710156d435d56e5a5224b128bc5e18013391"
+    },
+    "parent_result": {
+      "path": "outputs/natural_percentile/road_supported_calibration_v5_20260909/result.json",
+      "sha256": "653ac3c56bb5d671ce1c9083b97f9c969bea1e3497cd5a361dafc8028ad15d94"
+    },
+    "policy": {
+      "path": "configs/natural_percentile/calibration_first_policy_v7.json",
+      "sha256": "eee83b4c6d2e3a835b69b247db864a961caee6a2ba98f446bbdd9b65cdf0773f"
+    }
+  },
+  "runtime": {
+    "device": "cpu",
+    "threads": 1
+  },
+  "output_root": "outputs/natural_percentile/calibration_first_v7_20260909"
+}

@@ -1,0 +1,18 @@
+{
+  "protocol": "natural_highd_grid_event_aligned_strict_n9_cutin_v1",
+  "source_origin": "natural_observation",
+  "natural_only": true,
+  "allow_simulated_futures": false,
+  "raw_root": "highD/data",
+  "split_path": "configs/highd_split_v1.json",
+  "output_root": "outputs/natural_percentile/data_v1_20260908",
+  "recordings": ["01", "02", "03", "04", "05", "06", "08", "10", "11", "12", "17", "20", "22", "25", "26", "28", "29", "36", "40", "41", "43", "46", "49", "51", "52", "53", "55", "57", "59"],
+  "grid_stride_raw_frames": 25,
+  "preferred_pre_entry_s": 3.0,
+  "max_neighbor_distance_m": null,
+  "only_cars": false,
+  "data_protocol_path": "configs/natural_percentile/data_protocol_v1.json",
+  "data_protocol_sha256": "d18229489071a510f2a670ea437814411f03505ddb69f128895a40e48870fc96",
+  "development_split_path": "configs/natural_percentile/development_split_v1.json",
+  "development_split_sha256": "6e9f853b28a3a255c1b119a1ff471120cea9cf8e4dbab90dd08f88084c1a6ec9"
+}

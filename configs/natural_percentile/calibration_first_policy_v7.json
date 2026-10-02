@@ -1,0 +1,63 @@
+{
+  "protocol": "natural_calibration_first_selection_policy_v7",
+  "natural_only": true,
+  "base_retraining": false,
+  "generator_training": false,
+  "oof_risk_label_generation": false,
+  "parent": "frozen_v5_six_fresh_bases_and_all_16_by_6_CAL_fold_models",
+  "selection_role": "CAL_only",
+  "family_grid": [
+    "global",
+    "semantic",
+    "distribution",
+    "context"
+  ],
+  "ridge_grid": [
+    0.001,
+    0.01,
+    0.1,
+    1,
+    10
+  ],
+  "fold_refitting": false,
+  "heldout_predictions": "reconstruct_each_frozen_v5_fold_model_on_its_held_record_CAL_rows",
+  "levels": [
+    0.1,
+    0.3,
+    0.5,
+    0.7,
+    0.9
+  ],
+  "groups": [
+    "pooled",
+    "left",
+    "right",
+    "N3_5",
+    "N6_8",
+    "N9_plus"
+  ],
+  "minimum_group_events": 100,
+  "minimum_group_recordings": 3,
+  "primary_objective": "maximum_across_all_six_groups_of_max_atom_aware_quantile_gap_over_tolerance_and_absolute_central80_gap_over_0.05",
+  "pooled_quantile_tolerance": 0.03,
+  "subgroup_quantile_tolerance": 0.05,
+  "central80_target": 0.8,
+  "central80_tolerance": 0.05,
+  "eligible_candidate": "all_six_parent_fold_fits_converged_and_record_mean_NLL_at_most_global_record_mean_NLL_plus_0.05",
+  "maximum_NLL_increase_over_global": 0.05,
+  "tie_break": [
+    "sum_squared_normalized_deviations_equal_groups",
+    "record_mean_NLL",
+    "simpler_family_in_declared_order",
+    "stronger_ridge"
+  ],
+  "one_standard_error_rule": false,
+  "full_CAL_refit": "same_frozen_v4_event_mean_mixed_NLL_plus_slope_ridge_for_selected_family_and_ridge",
+  "endpoint_atoms_fixed": true,
+  "actual_PET_or_PIT_clipping": false,
+  "deployment_freeze_before_AUDIT_archive_decode": true,
+  "evaluation_gates": "unchanged_exact_v5_evaluation_policy",
+  "AUDIT_status": "historically_inspected_internal_development_audit",
+  "AUDIT_used_for_parameter_selection": false,
+  "universal_conditional_guarantee": false
+}

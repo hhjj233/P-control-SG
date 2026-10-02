@@ -1,0 +1,39 @@
+{
+  "protocol": "natural_M2_time_attention_scratch_pilot_v1",
+  "scope": "Stage_A_history_encoder_only_FIT_STOP_development",
+  "reference_prepared": {"path": "outputs/natural_percentile/scene_crps_pilot_v1_20260910/prepared.json", "sha256": "d81c62b7459e71b6d4533b7c06e726afe6c797a6170cacfac2ae7fa78eccd613"},
+  "archived_reference_result": {"path": "outputs/natural_percentile/scene_refinement_v1_20260910/training/highN/result.json", "sha256": "d40bd62ecdf57058356fa88735b20516c256acfffc5c5a95fad632b2067e8590"},
+  "arms": ["M2_MLP", "M2_TimeAttn"],
+  "model": {"hidden_dim": 64, "heads": 4, "bins": 64, "cap_seconds": 4.0, "zero_atom_enabled": true, "temporal_layers": 2, "temporal_feedforward_dim": 128, "dropout": 0.0},
+  "training": {
+    "seed": 20260915,
+    "from_scratch": true,
+    "pretrained_weights": false,
+    "same_nonencoder_initialization": true,
+    "batch_size": 128,
+    "weight_decay": 0.0001,
+    "gradient_clip_norm": 5.0,
+    "optimizer": "AdamW",
+    "stage1": {"epochs": 80, "patience": 12, "learning_rate": 0.001, "highN_weight": 1.0, "selection": "STOP_overall_CRPS", "minimum_improvement_seconds": 0.00001},
+    "stage2": {"epochs": 30, "patience": 8, "learning_rate": 0.0001, "highN_weight": 2.0, "selection": "0.5_STOP_overall_CRPS_plus_0.5_STOP_highN_CRPS", "overall_guard_vs_stage1": 1.02, "highN_guard_vs_stage1": 1.0, "minimum_improvement_seconds": 0.00001},
+    "loss": "analytic_CRPS_over_cap; stage2_positive_H_only_weights_with_fixed_FIT_mean",
+    "sampling": "all_9913_FIT_once_per_epoch; identical_order_at_matching_stage_epoch",
+    "multiseed": false
+  },
+  "runtime": {"device": "cuda:0", "threads": 2, "deterministic": true, "TF32": false, "AMP": false, "shared_GPU_not_latency_benchmark": true},
+  "evaluation": {
+    "allowed_roles": ["FIT", "STOP"],
+    "CAL_decoded": false,
+    "AUDIT_decoded": false,
+    "quantile_levels": [0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95],
+    "thresholds_seconds": [0.25, 0.5, 1.0, 2.0, 3.0],
+    "PIT_seed": 20260915,
+    "tail_integrals_seconds": [1.0, 2.0],
+    "candidate_gate": "at_least_1pct_lower_STOP_CRPS_than_scratch_MLP; highN_and_twCRPS1_no_worse_than_scratch_MLP; overall_and_highN_no_worse_than_archived_raw_M2",
+    "no_calibration_refit": true,
+    "no_OOF_relabeling": true,
+    "no_generator_change_or_sampling": true,
+    "no_production_promotion": true
+  },
+  "output_root": "outputs/natural_percentile/time_attention_cdf_pilot_v1_20260915"
+}

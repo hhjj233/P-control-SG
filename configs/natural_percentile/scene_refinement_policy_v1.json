@@ -1,0 +1,53 @@
+{
+  "protocol": "natural_scene_M2_refinement_policy_v1",
+  "parent_prepared": {"path": "outputs/natural_percentile/scene_crps_pilot_v1_20260910/prepared.json", "sha256": "d81c62b7459e71b6d4533b7c06e726afe6c797a6170cacfac2ae7fa78eccd613"},
+  "parent_result": {"path": "outputs/natural_percentile/scene_crps_pilot_v1_20260910/M2/result.json", "sha256": "bf9c3afb0103aa50144345e10f234324eb6435b846473185d5116aa5b8499b51"},
+  "old_AUDIT_result": {"path": "outputs/natural_percentile/scene_crps_pilot_v1_20260910/AUDIT_once/results.json", "sha256": "dd59e274083df59688e421336086281e637795de6edee101cb87496af3ed3442"},
+  "base_candidates": ["original", "continue", "highN"],
+  "training": {
+    "seed": 20260910,
+    "multiseed_replication": false,
+    "warm_start": "same_natural_M2_epoch20_checkpoint",
+    "architecture_changed": false,
+    "epochs": 30,
+    "patience": 8,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "batch_size": 128,
+    "gradient_clip_norm": 5.0,
+    "highN_threshold": 9,
+    "highN_weight_multiplier": 2.0,
+    "weight_normalization": "fixed_FIT_global_mean_not_per_minibatch",
+    "loss": "analytic_CRPS_divided_by_4_with_positive_H_only_weights",
+    "checkpoint_score": "0.5_STOP_overall_CRPS_plus_0.5_STOP_N9plus_CRPS",
+    "overall_STOP_guard_ratio": 1.02,
+    "highN_STOP_guard_ratio": 1.0,
+    "checkpoint_min_delta_seconds": 0.00001
+  },
+  "calibration": {
+    "data_role": "CAL_only",
+    "base_selected_before_CAL_decode": true,
+    "selection": "leave_one_CAL_recording_out",
+    "families": ["identity", "global", "count"],
+    "u_knots": [0.0, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 1.0],
+    "count_gate": "clip((N-5)/8,0,1)",
+    "ridge_grid": [0.0001, 0.001, 0.01, 0.1, 1.0],
+    "fit_loss": "mean_exact_CRPS_over_4_plus_ridge_half_sum_identity_deviation_squared",
+    "OOF_overall_CRPS_guard_ratio": 1.02,
+    "OOF_highN_CRPS_guard_ratio": 1.02,
+    "selection_score": "expected_randomized_PIT_grid_KS_plus_2_threshold_mean_absolute_error",
+    "PIT_grid": [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95],
+    "identity_always_available": true
+  },
+  "evaluation": {
+    "AUDIT": "one_second_round_development_evaluation_after_all_choices_frozen",
+    "AUDIT_feedback_previously_used_to_define_this_stage": true,
+    "AUDIT_used_for_selection_in_this_stage": false,
+    "no_fresh_blind_test_claim": true,
+    "refined_CDF_must_not_be_relabelled_uniform_bin_masses": true,
+    "generator_training": false,
+    "new_raw_reads": false
+  },
+  "runtime": {"device": "cpu", "parallel_training_workers": 2, "threads_per_worker": 2},
+  "output_root": "outputs/natural_percentile/scene_refinement_v1_20260910"
+}

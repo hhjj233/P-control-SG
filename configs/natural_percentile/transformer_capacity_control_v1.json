@@ -1,0 +1,22 @@
+{
+  "protocol": "transformer_near_capacity_matched_MLP_control_v1",
+  "output_root": "outputs/natural_percentile/transformer_publication_v1_20260916/capacity_matched_MLP_v1",
+  "parent_policy": {"path": "configs/natural_percentile/time_attention_cdf_pilot_v1.json", "sha256": "8a34b4d71deddee88bfcdd0783d2ac304f54905a732cc009a9e05fb53cbdf865"},
+  "group_guard_policy": {"path": "configs/natural_percentile/transformer_group_guarded_refinement_v1.json", "sha256": "c702a0b0482a967fc4a11c921ab9648ebe50a6885de7a0656cb20694f7bb0f00"},
+  "matched_TimeAttn_result": {"path": "outputs/natural_percentile/time_attention_cdf_pilot_v1_20260915/M2_TimeAttn/result.json", "sha256": "c40d8a7e5e69d29034d541f6eba4a1b1eb00e70ad154c8959ea263c06d0a6e7d"},
+  "arm": "M2_WideMLP",
+  "encoder_hidden_width": 578,
+  "width_selection": "nearest_shared_integer_MLP_width_to_TimeAttn_parameter_count_without_data",
+  "parameter_count": 237529,
+  "TimeAttn_parameter_count": 237633,
+  "maximum_relative_parameter_difference": 0.001,
+  "training": "same_stage1_seed_FIT_STOP_recipe_then_same_fixed30_highN_trajectory_and_two_STOP_selection_rules",
+  "initial_nonencoder_tensors_match": true,
+  "selection_rule_for_primary_comparison": "group_guarded",
+  "CAL_AUDIT_access_in_training": false,
+  "protected_data_access": false,
+  "multi_training_seed_campaign": false,
+  "equal_FLOPs_claimed": false,
+  "all_results_reported": true,
+  "existing_primary_reference_and_generator_experiment_unchanged": true
+}

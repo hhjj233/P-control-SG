@@ -1,0 +1,20 @@
+{
+  "protocol": "natural_joint_generator_risk_finetuning_v1",
+  "base_policy": {"path": "configs/natural_percentile/dynamic_full_chain_v1.json", "sha256": "b380e74aeff6eabc6358c92caad0f3d1cc85b7bbfb68e90d4602b5871734cafa"},
+  "resume_checkpoint": {"path": "outputs/natural_percentile/dynamic_full_chain_v1_20260913/full_chain/ema_epoch_001.pt", "sha256": "1eee5fcf5d1cc86cb7f795bdf28569f29da6b7aa2c1d580a600791c10b8a2f18"},
+  "resume_epoch": 1,
+  "previous_STOP": {"path": "outputs/natural_percentile/dynamic_full_chain_v1_20260913/STOP_evaluation/results.json", "sha256": "fb932173365c1151d51eab29c4f1037c3f70f83b6627d9cb7dd8e2a796d64f04"},
+  "FIT_parameter_probe": {"path": "outputs/natural_percentile/generator_parameter_scope_probe_v1_20260913/result.json", "sha256": "cafd1898a0d72c46f2b93509724b490ae6a8235c89b499bf7dcab730fc9333b9"},
+  "recipes": ["joint_generator"],
+  "training_overrides": {"epochs": 6, "snapshot_epochs": [0, 1, 3, 6], "core_learning_rate": 0.00003, "adapter_learning_rate": 0.0003, "seed": 20261381, "p_dropout_seed": 20261382, "terminal_noise_seed": 20261383},
+  "history_sampling_seed": 20261384,
+  "trainable_parameters": "all_980368_generator_parameters_only; front_CDF_not_part_of_generator",
+  "losses_labels_CDF_and_forward_inference_unchanged": true,
+  "original_generator_core_is_now_allowed_to_change": true,
+  "EMA_scope": "all_generator_parameters; buffers_copied",
+  "save_raw_optimizer_and_random_stream_state_each_epoch": true,
+  "new_multiseed_or_robustness_study": false,
+  "production_default_changed": false,
+  "output_root": "outputs/natural_percentile/joint_generator_finetune_v2_20260913"
+}
+

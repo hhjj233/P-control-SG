@@ -1,0 +1,13 @@
+{
+  "protocol": "natural_scene_absolute_pet_visualization_v1",
+  "parent_visual_manifest": {
+    "path": "outputs/natural_percentile/scene_refinement_visuals_v1_20260910/manifest.json",
+    "sha256": "6771e222843353053e24f33de250e5a9515581f8c830346a12367874fd5aa2fd"
+  },
+  "metric_code_sha256": {
+    "natural_percentile/metrics/scene_pet_timeline.py": "ac0ee21dc8a81ace7f1647729d0e467f4414f6f0f54ba12ad721ff1be2eb2ec5",
+    "natural_percentile/data/scene_pet.py": "3be9fee6a5c01f7343bd9063cffe5e2bc4a389c8cdcdd9aebc65fa616cdf9fb6",
+    "scripts/natural_scene_absolute_data.py": "dba747e336a6c2deb4041718fda6b2e8f006e7a23bc591c04fe0b8f2963401a3"
+  },
+  "output_root": "outputs/natural_percentile/scene_absolute_pet_visuals_v1_20260910"
+}

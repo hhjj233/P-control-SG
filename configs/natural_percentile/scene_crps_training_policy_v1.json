@@ -1,0 +1,60 @@
+{
+  "protocol": "natural_scene_CRPS_training_policy_v1",
+  "estimand": "P(Y_scene_6.96s <= y | H, E_full=1)",
+  "data_expansion": {
+    "roles_expanded": ["FIT"],
+    "history_qualified_quota_per_FIT_recording": 4096,
+    "frozen_other_roles": ["STOP", "CAL", "AUDIT"],
+    "all_fixed_agents_required": true,
+    "window_seconds": [0.0, 6.96],
+    "cap_seconds": 4.0,
+    "natural_observations_only": true
+  },
+  "model": {
+    "variants": ["Global", "M0", "M1", "M2"],
+    "primary_comparison": ["M2", "M1"],
+    "bins": 64,
+    "cap_seconds": 4.0,
+    "zero_atom_enabled": true,
+    "hidden_dim": 64,
+    "heads": 4,
+    "M1_M2_parameter_counts_must_match": true,
+    "focal_or_future_semantics": false,
+    "pretrained_weights": false
+  },
+  "training": {
+    "seed": 20260910,
+    "epochs": 80,
+    "patience": 12,
+    "minimum_improvement_seconds": 0.00001,
+    "batch_size": 128,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "gradient_clip_norm": 5.0,
+    "loss": "analytic_CRPS_divided_by_4_seconds",
+    "selection_score": "STOP_scene_mean_CRPS_seconds",
+    "scheduler": "none",
+    "sampling": "shuffle_all_FIT_scenes_once_per_epoch_no_tail_weights",
+    "normalizer": "FIT_valid_history_population_std_scale_only_minimum_scale_1",
+    "dimensions_normalizer": "FIT_valid_dimensions_RMS_minimum_scale_1",
+    "road_normalizer": "same_scale_as_history_y",
+    "record_balancing_weights": false,
+    "auxiliary_losses": false
+  },
+  "evaluation": {
+    "STOP": "checkpoint_selection_only",
+    "CAL": "not_decoded_reserved_for_future_calibrator",
+    "AUDIT": "one_raw_comparison_after_all_checkpoints_frozen_no_retuning",
+    "AUDIT_status": "previously_inspected_development_recordings_not_final_blind_test",
+    "thresholds_seconds": [0.25, 0.5, 1.0, 2.0, 3.0],
+    "quantile_levels": [0.1, 0.3, 0.5, 0.7, 0.9],
+    "primary_score": "scene_mean_CRPS_seconds",
+    "secondary_score": "recording_macro_mean_CRPS_seconds",
+    "recording_bootstrap_repetitions": 2000,
+    "bootstrap_seed": 20260911,
+    "pit_seed": 20260912,
+    "calibration_training": false,
+    "generator_training": false
+  },
+  "runtime": {"device": "cpu", "threads_per_worker": 2, "maximum_parallel_training_workers": 2}
+}

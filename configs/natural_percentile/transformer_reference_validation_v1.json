@@ -1,0 +1,43 @@
+{
+  "protocol": "transformer_publication_reference_validation_v1",
+  "source_study": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/reference_ablation/result.json", "sha256": "b5085db910fa1011e78e2362bca03831de1892e016fadd1f19c4a1a9884e6c2a"},
+  "source_audit": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/reference_ablation/independent_audit.json", "sha256": "a7e2d3e22a1ac9ef67a17afdb22913b8c8d467ac079af0728a3b78aa8363d120"},
+  "arms": ["M2_MLP", "M2_TimeAttn", "M2_TimeAttn_absolute_only", "M2_TimeAttn_relative_only", "M1_TimeAttn", "M2_GRU"],
+  "stages": ["stage1", "stage2"],
+  "primary_reference": {"arm": "M2_TimeAttn", "stage": "stage2", "selector": "count_balanced"},
+  "base_weight_selection": "unchanged_P1_STOP_rule; stage1_diagnostic_only; no_CAL_or_AUDIT_checkpoint_selection",
+  "calibration": {
+    "families": ["identity", "global", "count"],
+    "ridge_grid": [0.0001, 0.001, 0.01, 0.1, 1.0],
+    "fitting": "same_convex_mean_CRPS_over_4_plus_identity_ridge; cached_per_row_quadratic",
+    "LOO_unit": "whole_CAL_recording",
+    "base_weights_frozen": true,
+    "minimum_group_rows": 20,
+    "selectors": {
+      "legacy_global": {"objective": "overall_PIT_grid_max_plus_2_threshold_MAE", "overall_CRPS_ratio": 1.02, "highN_CRPS_ratio": 1.02},
+      "count_balanced": {"objective": "half_global_local_score_plus_half_mean_supported_N_local_scores", "local_score": "PIT_grid_MAE_plus_2_threshold_MAE", "overall_CRPS_ratio": 1.02, "supported_group_CRPS_ratio": 1.02, "tail_CRPS_ratio": 1.02}
+    },
+    "tie_break": "score_then_identity_global_count_then_larger_ridge",
+    "PIT_grid": [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95],
+    "thresholds_seconds": [0.25, 0.5, 1.0, 2.0, 3.0],
+    "quantile_levels": [0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95]
+  },
+  "evaluation": {
+    "role": "AUDIT",
+    "rows": 487,
+    "scope": "reused_development_not_blind",
+    "all12_CAL_selections_frozen_before_any_new_AUDIT_prediction": true,
+    "representations": ["raw", "legacy_global", "count_balanced"],
+    "bootstrap_seed": 20260916,
+    "recording_bootstrap_repetitions": 10000,
+    "bootstrap_unit": "recording; paired_scenes; exploratory_few_recordings",
+    "multi_training_seed_claim": false,
+    "all_arms_and_regressions_reported": true
+  },
+  "runtime": {"device": "cuda:0", "threads": 2, "deterministic": true, "TF32": false, "AMP": false},
+  "protected_val_test_or_recording18_access": false,
+  "raw_CSV_access": false,
+  "generator_training_or_sampling": false,
+  "main_paper_automatically_rewritten": false,
+  "output_root": "outputs/natural_percentile/transformer_publication_v1_20260916/reference_validation_v1"
+}

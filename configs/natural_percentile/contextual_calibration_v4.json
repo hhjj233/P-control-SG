@@ -1,0 +1,11 @@
+{
+  "protocol": "natural_contextual_continuous_calibration_v4",
+  "input": {
+    "v3_config": {"path": "configs/natural_percentile/continuous_calibration_v3.json", "sha256": "a155423e594072216557190ca1a53bcbab19a0a330f90eae6f69a4e83d8c20e3"},
+    "v3_result": {"path": "outputs/natural_percentile/continuous_calibration_v3_20260909/result.json", "sha256": "d4251791daf53da865ba02e95aa14a03e77fd967707ea5b3a6e57ba428102c1b"},
+    "v3_freeze_receipt": {"path": "outputs/natural_percentile/continuous_calibration_v3_20260909/calibration_freeze_receipt.json", "sha256": "b672759c6ffe2173e5c1f2d04e2e92abb3de8c1c407b041fd807bb695a0378eb"},
+    "policy": {"path": "configs/natural_percentile/contextual_calibration_policy_v4.json", "sha256": "1bd58a34af260a10afc8a8650b394a0890958a0e111e666b425e8540e2945da7"}
+  },
+  "runtime": {"device": "cpu", "threads": 1},
+  "output_root": "outputs/natural_percentile/contextual_calibration_v4_20260909"
+}

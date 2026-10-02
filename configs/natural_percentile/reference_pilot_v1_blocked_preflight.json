@@ -1,0 +1,40 @@
+{
+  "protocol": "natural_reference_pilot_v1",
+  "execution_scope": "reference_only",
+  "input": {
+    "dataset_manifest": {"path": "outputs/natural_percentile/data_v1_20260908/manifest.json", "sha256": "0acbb963ac116836b8e737bbdc3b969fe9d2366444e193c970c7a039e012aac7"},
+    "split_manifest": {"path": "configs/natural_percentile/development_split_v1.json", "sha256": "6e9f853b28a3a255c1b119a1ff471120cea9cf8e4dbab90dd08f88084c1a6ec9"},
+    "original_split_manifest": {"path": "configs/highd_split_v1.json", "sha256": "7829e4ac15227688330bf4d6d54c2e9d353d7c0546118867b4d97b4a6432b904"},
+    "data_protocol": {"path": "configs/natural_percentile/data_protocol_v1.json", "sha256": "d18229489071a510f2a670ea437814411f03505ddb69f128895a40e48870fc96"},
+    "extraction_config": {"path": "configs/natural_percentile/build_highd_v1.json", "sha256": "e4e358a6f98f578ff8ff622c05a782b4eaeb8e877e5cc55506b2a8fc431e026c"}
+  },
+  "data_contract": {
+    "extraction_protocol": "natural_highd_strict_n9_observed_centres_v1",
+    "metric_version": "natural_observed_focal_pet_complete_occupancy_v1",
+    "source_origin": "natural_observation",
+    "natural_only": true,
+    "allow_simulated_futures": false
+  },
+  "model": {
+    "variants": ["Global", "M0", "M1", "M2", "M3"],
+    "bins": 64,
+    "cap_seconds": 4.0,
+    "zero_atom_enabled": true,
+    "hidden_dim": 128,
+    "heads": 4,
+    "road_geometry_dim": 4,
+    "focal_slots": [2, 8],
+    "m3_require_wider": true,
+    "m3_relative_tolerance": 0.1
+  },
+  "training": {
+    "seed": 20260908,
+    "epochs": 100,
+    "patience": 20,
+    "batch_size": 128,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0
+  },
+  "runtime": {"device": "cpu", "threads": 1},
+  "output_root": "outputs/natural_percentile/reference_pilot_v1_20260908_not_started"
+}

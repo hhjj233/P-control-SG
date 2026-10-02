@@ -1,0 +1,79 @@
+{
+  "protocol": "natural_terminal_physics_paired_training_v1",
+  "base_policy": {
+    "path": "configs/natural_percentile/terminal_value_pilot_v1.json",
+    "sha256": "7b7ffa041980c18a2b76437bf3538f46e81d910a6507c839a515065181f5dd3a"
+  },
+  "previous_training": {
+    "continue": {
+      "path": "outputs/natural_percentile/terminal_value_pilot_v1_20260912/continue/result.json",
+      "sha256": "0f8abe314c2fa14ee1175113bdd813d016168c60ff848e6218b8565b9149b3b7"
+    },
+    "terminal": {
+      "path": "outputs/natural_percentile/terminal_value_pilot_v1_20260912/terminal/result.json",
+      "sha256": "0554d661ba8e47d32464a41a3ef8ed1c0c2d583454a9154a47ff362b29f95d33"
+    }
+  },
+  "previous_STOP": {
+    "path": "outputs/natural_percentile/terminal_value_pilot_v1_20260912/STOP_evaluation/results.json",
+    "sha256": "2c6413a5ddb43348fe04d4713cacb89cd1cadde18ca105b86f476942dfce98af"
+  },
+  "recipes": [
+    "physics",
+    "terminal_physics"
+  ],
+  "terminal_weights": {
+    "physics": 0,
+    "terminal_physics": 1
+  },
+  "physics": {
+    "road_weight": 0.1,
+    "speed_weight": 0.1,
+    "tail_fraction": 0.1,
+    "road_scale_m": 1,
+    "speed_scale_mps": 1,
+    "hinge": "linear_positive_increase_beyond_detached_per_actor_t0_violation",
+    "pooling": "largest_ceil_0.1_times_all_future_actor_frames_mean_including_zeros",
+    "t0_is_decision_variable": false,
+    "all_actual_actors_included": true,
+    "presence_mask": "same_p_presence_as_selected_base_rows_not_PET_support",
+    "trajectory_clipping_or_projection": false,
+    "extra_road_margin_m": 0
+  },
+  "inherits_unchanged": [
+    "parent_checkpoint",
+    "all_FIT_data",
+    "OOF_labels_and_CDF",
+    "natural_p_targets",
+    "all_base_losses",
+    "seed_and_all_rng",
+    "3_epochs_234_updates",
+    "4_terminal_scenes_per_batch",
+    "optimizer_and_EMA",
+    "50_DDIM_CFG4_suffix5",
+    "STOP12_p_grid_and_noise",
+    "all_quality_gates"
+  ],
+  "scale_probe": {
+    "source": "frozen_FIT24_selection_from_terminal_support_probe_v2",
+    "target": "own_natural_OOF_p_only",
+    "optimizer_steps": 0
+  },
+  "automatic_hyperparameter_search": false,
+  "output_root": "outputs/natural_percentile/terminal_physics_pilot_v2_20260912",
+  "prior_scale_probe": {
+    "path": "outputs/natural_percentile/terminal_physics_pilot_v1_20260912/scale_probe/result.json",
+    "sha256": "9ff638c85e7ba667f222741e41f456d541a470d9d33522aced97e57b8c1d9b02"
+  },
+  "weight_decision": {
+    "source": "FIT24_no_update_probe_before_any_physics_training",
+    "road_weight_from": 1,
+    "road_weight_to": 0.1,
+    "speed_weight_to": 0.1,
+    "observed_nonzero_physics_to_terminal_gradient_median": 4.75925751095915,
+    "observed_speed_violation_scenes": 0,
+    "speed_scale_empirically_validated": false,
+    "STOP_used_for_weight_choice": false,
+    "rationale": "reduce physical gradient dominance; one fixed non-tuned safety weight; speed shares conservative weight without a demonstrated natural-probe gradient scale"
+  }
+}

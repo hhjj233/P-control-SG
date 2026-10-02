@@ -1,0 +1,24 @@
+{
+  "protocol": "guarded_reference_generator_adaptation_v1",
+  "output_root": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_generator_v1",
+  "only_natural_observations": true,
+  "reference_manifest": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_reference_validation_v1/reference_manifest.json", "sha256": "7b09eed8e745d32c63d3e912d38d3f4fd3e3c2206831ff4b1fac1a14671a9b0a"},
+  "labels_manifest": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_crossfit_v1/manifest.json", "sha256": "b8d350e0ffcd6de2a89bfd438630af75080750d1816e4a3f4975e7a2acd7d30c"},
+  "reference_chain_audit": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_reference_chain_audit.json", "sha256": "f08c0cb629d817be2287ff4874d0930d72633101422292e5d6a7b1dc27640951"},
+  "generator_data": {"path": "outputs/natural_percentile/natural_diffusion_data_v1_20260910/manifest.json", "sha256": "b10d412b54cf6a94c82639362515b4fff62305d8e448c5c6dbcd3eaa00fad408"},
+  "generator_warm_start": {"path": "outputs/natural_percentile/time_attention_full_pipeline_v1_20260915/generator/terminal/raw_epoch_003.pt", "sha256": "1c3b70218f8104a351fc10fa85cef41fe95b2ac73ff70f4e2a806d04c9fa7c5b"},
+  "generator": {
+    "seed": 20260915, "core_learning_rate": 0.00003, "adapter_learning_rate": 0.0003,
+    "batch_size": 128, "EMA_decay": 0.995, "p_dropout_probability": 0.15,
+    "adaptation_max_epochs": 40, "adaptation_patience": 8,
+    "adaptation_selection": "STOP_fixed_noise_EMA_v_MSE_no_generated_Fine_selection",
+    "initialization": "authenticated_old_complete_TimeAttn_generator_weights_only_not_optimizer",
+    "architecture": "unchanged_TrainableRiskGenerator_980368_parameters",
+    "target_query": "canonical_inverse_during_common_natural_adaptation",
+    "all_FIT_rows_each_epoch": true
+  },
+  "runtime": {"device": "cuda:0", "threads": 2, "deterministic": true, "TF32": false, "AMP": false},
+  "protected_data_access": false,
+  "multi_training_seed_campaign": false,
+  "purpose": "common_new_reference_initialization_for_matched_canonical_vs_atom_aware_terminal_training"
+}

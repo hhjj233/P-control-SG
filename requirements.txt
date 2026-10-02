@@ -1,0 +1,6 @@
+torch>=2.2
+numpy>=2.0
+scipy>=1.10
+pandas>=2.0
+# only for the classical reference estimators of Table 1 (pcontrol/research/classical_reference_baselines.py)
+scikit-learn>=1.3

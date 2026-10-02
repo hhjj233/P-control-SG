@@ -1,0 +1,20 @@
+{
+  "protocol": "guarded_all_request_generation_analysis_v1",
+  "output_root": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_generation_eval_v1/analysis_v1",
+  "sampling_policy": {"path": "configs/natural_percentile/guarded_generation_evaluation_v1.json", "sha256": "c69c58cfab7a68a137b124618aca651a0f87df466e6c722718776d8a6ae0dddf"},
+  "queue": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_generation_eval_v1/queue.json", "sha256": "ab39168d2472cad4395221cde5e9252d9141c0ce9832e1ddee268fd213243b83"},
+  "complete_numeric_audit_required": true,
+  "requests_per_arm": 1440,
+  "response_rank_tolerance": 0.0000001,
+  "response_strict_gap": 0.000001,
+  "diversity": "all3_z_all3_unordered_pairs; Euclidean_xy; exclude_fixed_t0; equal_H_P_weight; report_all_ego_background; not_plausibility_score",
+  "failure_order": ["Fine_hit", "scalar_midrank_gap", "nominal_scalar_target_outside_Fine", "miss_at_cap", "miss_at_zero", "continuous_outcome_miss"],
+  "recording_bootstrap_repetitions": 10000,
+  "recording_bootstrap_seed": 20260916,
+  "uncertainty": "paired4_recording_clusters_exploratory_not_training_seed_replication_or_significance_guarantee",
+  "natural_baseline": "96_unique_observed_futures_descriptive_quality_not_counterfactual_targets",
+  "initial_violations": "record_separately_never_remove_from_primary_metrics",
+  "main_error": "original_midrank_absolute_error_not_floor_subtracted",
+  "no_retraining_resampling_or_filtering": true,
+  "protected_data_access": false
+}

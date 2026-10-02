@@ -1,0 +1,41 @@
+{
+  "protocol": "natural_GP_encounter_support_continuation_v1",
+  "base_policy": {
+    "path": "configs/natural_percentile/precision_band_continuation_v1.json",
+    "sha256": "8760813ec8e2d4be221071ae0501947cd642e3320ba2d55b63a359677f64a5f9"
+  },
+  "resume_training_state": {
+    "path": "outputs/natural_percentile/precision_band_continuation_v1_20260913/precision_band/training_state_epoch_003.pt",
+    "sha256": "e284676d806f9dab2646c230577556b73f0b2cce094d72729722d255fd88a5d4"
+  },
+  "resume_completed_local_epochs": 3,
+  "resume_global_epoch": 9,
+  "recipes": [
+    "encounter_support"
+  ],
+  "gradient_probe": {
+    "path": "outputs/natural_percentile/encounter_support_probe_v1_20260913/result.json",
+    "sha256": "a383a1a6871f778acd5a33d74aa446b79c6aefd820bacd7dbcc731db34525a33"
+  },
+  "matched_control_evaluation": {
+    "path": "outputs/natural_percentile/precision_band_continuation_v1_20260913/STOP_evaluation/results.json",
+    "sha256": "98a43e7fddda61590faa46d473e0409a4f620a1e46740820502aac4ffe064a64"
+  },
+  "training_overrides": {
+    "epochs": 3,
+    "snapshot_epochs": [
+      0,
+      1,
+      3
+    ],
+    "encounter_weight": 0.1,
+    "encounter_margin_m": 0.02
+  },
+  "pairing": "branch local epochs1..3 replay the precision branch local epochs4..6 optimizer/data/noise streams, with added training-only auxiliary",
+  "comparison": "new local3 EMA/raw versus precision local6 EMA/raw; compare new Fine also with starting precision local3 raw9/36",
+  "inference_unchanged": true,
+  "metric_CDF_labels_unchanged": true,
+  "production_default_changed": false,
+  "new_robustness_or_multiseed_experiment": false,
+  "output_root": "outputs/natural_percentile/encounter_support_continuation_v1_20260913"
+}

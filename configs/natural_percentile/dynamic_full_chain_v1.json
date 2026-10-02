@@ -1,0 +1,17 @@
+{
+  "protocol": "natural_dynamic_full_DDIM_gradient_training_v1",
+  "base_policy": {"path": "configs/natural_percentile/dynamic_dual_value_v1.json", "sha256": "54502cd6e708789ce3442e84f83354c4308010bc4e0658a49381d8545521074f"},
+  "resume_checkpoint": {"path": "outputs/natural_percentile/dynamic_dual_value_v1_20260913/dynamic_dual/ema_epoch_003.pt", "sha256": "1618479e4b835e08bd3c0e05b079d67045418d21260f9c9719ebf513ccb58012"},
+  "previous_STOP": {"path": "outputs/natural_percentile/dynamic_dual_value_v1_20260913/STOP_evaluation/results.json", "sha256": "096700b63456b3e5b8eff00c658f7317c5cc9daef2759f560353d1d79d885982"},
+  "FIT_gradient_probe": {"path": "outputs/natural_percentile/full_chain_gradient_probe_v1_20260913/result.json", "sha256": "bb3fe32983f661e31667d2e5e12ce4e3d141c3f1ef99522ebd29ee9a05366624"},
+  "recipes": ["full_chain"],
+  "training_overrides": {"epochs": 3, "snapshot_epochs": [0, 1, 3], "grad_last_steps": 50, "seed": 20261361, "p_dropout_seed": 20261362, "terminal_noise_seed": 20261363},
+  "history_sampling_seed": 20261364,
+  "only_optimization_mechanism_changed": "full50_DDIM_parameter_gradient_instead_of_last5; continuation_resets_optimizer_and_uses_new_fixed_random_streams",
+  "losses_architecture_natural_labels_CDF_and_inference_unchanged": true,
+  "same_total_forward_sampling_steps": 50,
+  "more_backward_recompute_cost_explicit": true,
+  "new_robustness_or_multiseed_study": false,
+  "production_default_changed": false,
+  "output_root": "outputs/natural_percentile/dynamic_full_chain_v1_20260913"
+}

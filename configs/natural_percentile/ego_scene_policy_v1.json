@@ -1,0 +1,87 @@
+{
+  "protocol": "natural_ego_scene_occupancy_pet_policy_v1",
+  "scope": "natural_highway_ego_vs_all_fixed_history_context_actors",
+  "loss_choice": "CRPS",
+  "train_model_now": false,
+  "train_generator_now": false,
+  "simulation_or_generated_futures": false,
+  "sampling": {
+    "unit": [
+      "recording_id",
+      "ego_id",
+      "t0_raw_frame"
+    ],
+    "grid_stride_raw_frames": 25,
+    "hash_salt": "natural_ego_scene_v1",
+    "max_scenes_per_recording": 512,
+    "assignment": "sort_all_t0_ego_candidates_by_sha256_of_salt_pipe_recording_pipe_ego_pipe_t0_then_take_first_history_eligible_up_to_budget",
+    "history_steps": 13,
+    "history_stride_raw_frames": 2,
+    "history_duration_s": 0.96,
+    "same_carriageway": true,
+    "vehicle_classes": [
+      "car",
+      "truck"
+    ],
+    "context_longitudinal_radius_m": 120,
+    "minimum_real_agents": 3,
+    "maximum_real_agents": null,
+    "ego_index": 0,
+    "other_agent_order": "ascending_raw_ID_metadata_only",
+    "focal_vehicle_input": false,
+    "cut_in_or_other_future_event_filter": false,
+    "future_or_PET_used_for_selection": false,
+    "freeze_selected_keys_before_future_extraction": true,
+    "replace_missing_future_or_bad_label_samples": false,
+    "future_newly_entering_IDs_added": false
+  },
+  "observations": {
+    "native_frame_rate": 25,
+    "future_steps_including_t0": 175,
+    "future_stride_raw_frames": 1,
+    "future_duration_s": 6.96,
+    "dt": 0.04,
+    "missing_storage": "NaN_with_explicit_per_actor_per_frame_observed_mask",
+    "future_trajectories_exported": "actual_observations_only_all_selected_actors",
+    "fill_missing_positions": false
+  },
+  "metric": {
+    "name": "window_restricted_minimum_pointwise_occupancy_PET",
+    "geometry": "closed_axis_aligned_rectangles_with_observed_centres_and_static_observed_length_width",
+    "pair_definition": "inf_abs_s_minus_t_for_s_t_in_0_6.96_and_intersecting_ego_and_other_footprints",
+    "measurement_between_samples": "linear_position_interpolation_only_between_adjacent_valid_native_observations",
+    "isolated_valid_samples": "degenerate_segments",
+    "interpolate_across_missing_samples": false,
+    "extrapolate": false,
+    "velocity_prediction_used": false,
+    "requires_cut_in": false,
+    "requires_ego_lane_constant": false,
+    "no_common_space_complete_pair": "positive_infinity_with_explicit_no_conflict_status",
+    "cap_seconds": 4,
+    "aggregation": "minimum_over_all_ego_other_pairs_no_background_background_primary_target",
+    "zero_meaning": "simultaneous_closed_AABB_contact_or_overlap_not_verified_physical_collision",
+    "includes_pre_t0_or_post_horizon_occupancies": false,
+    "claims_equivalence_to_legacy_pair_PET": false,
+    "claims_exact_SSAM_replication": false
+  },
+  "labels": {
+    "complete_finite": "point_exact_after_cap",
+    "complete_no_common_space": "point_at_cap_with_no_conflict_flag",
+    "incomplete": "interval_0_to_min_cap_observed_min",
+    "incomplete_no_observed_common_space": "interval_0_to_4_not_safe",
+    "incomplete_with_observed_zero": "exact_zero_certified_by_nonnegative_support",
+    "invalid_input": "error_or_explicit_not_defined_never_cap_fallback",
+    "all_selected_scenes_retained": true,
+    "point_CRPS_eligibility": "exact_point_only_censored_rows_retained_but_not_silently_trained_as_point_labels",
+    "observable_subset_selection_bias_must_be_reported": true,
+    "critical_vehicle_ID_is_label_only": true,
+    "per_pair_metrics_retained": true
+  },
+  "evidence": {
+    "old_pair_results_not_scene_evidence": true,
+    "original_val_test_and_unassigned18_raw_access": false,
+    "separate_full_cohort_and_exact_subset_counts": true,
+    "report_support_by_N_and_recording": true,
+    "no_claim_of_all_future_world_vehicles_or_unobserved_risk": true
+  }
+}

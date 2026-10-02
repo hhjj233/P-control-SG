@@ -1,0 +1,22 @@
+{
+  "protocol": "natural_complete_scene_FIT_expansion_config_v1",
+  "input": {
+    "scene_manifest": {"path": "outputs/natural_percentile/ego_scene_v1_20260910/manifest.json", "sha256": "86dbb5356841f4ca44e3e3da5a65612abd3594ae30721ebeea370cc220c79953"},
+    "complete_view": {"path": "outputs/natural_percentile/complete_scene_view_v1_20260910/manifest.json", "sha256": "85d48d841047969264816cbe84e46e11ccabc46f0bdf003ce5c9b0d5cba23d9a"},
+    "original_split": {"path": "configs/highd_split_v1.json", "sha256": "7829e4ac15227688330bf4d6d54c2e9d353d7c0546118867b4d97b4a6432b904"},
+    "roles": {"path": "configs/natural_percentile/ego_scene_roles_v1.json", "sha256": "df42ebfe9bd8283e9d65d60be333244eb9648bca2e355fbc551f7fea1188b2d8"}
+  },
+  "raw_root": "highD/data",
+  "FIT_recordings": ["05", "08", "10", "11", "12", "22", "26", "28", "40", "46", "52", "55", "57"],
+  "selection": {"hash_salt": "natural_ego_scene_v1", "history_quota_per_recording": 4096, "nested_original_prefix": 512},
+  "eligibility": "all_history_selected_agents_all_175_native_future_frames_observed",
+  "estimand": "P(Y_scene_6.96s <= y | H, E_full=1)",
+  "measurement": {"sample_period": 0.04, "window": [0.0, 6.96], "cap_seconds": 4.0},
+  "runtime": {"maximum_parallel_recording_workers": 4, "threads_per_worker": 1},
+  "loss_choice": "CRPS",
+  "training_executed_by_expansion": false,
+  "generator_training": false,
+  "incomplete_PET_measured": false,
+  "replace_incomplete_scenes": false,
+  "output_root": "outputs/natural_percentile/complete_scene_expanded_v1_20260910"
+}

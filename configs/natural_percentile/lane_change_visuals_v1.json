@@ -1,0 +1,12 @@
+{
+  "protocol": "natural_lane_change_visualization_v1",
+  "parent_absolute_manifest": {
+    "path": "outputs/natural_percentile/scene_absolute_pet_visuals_v1_20260910/manifest.json",
+    "sha256": "4462bdcf37593d76a24cf991faac479f4707aaa4c44174a8bdef11c8374454d3"
+  },
+  "selection_manifest": {
+    "path": "outputs/natural_percentile/lane_change_screen_v1_20260910/selection.json",
+    "sha256": "02394795add954c3dd8feea00d2472cd87eca1047a79a56ae40783cb2c2ec005"
+  },
+  "output_root": "outputs/natural_percentile/lane_change_visuals_v1_20260910"
+}

@@ -1,0 +1,23 @@
+{
+  "protocol": "guarded_atom_target_paired_terminal_training_v1",
+  "output_root": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_generator_v1/paired_terminal",
+  "adaptation": {"path": "outputs/natural_percentile/transformer_publication_v1_20260916/guarded_generator_v1/adaptation/result.json", "sha256": "f1b19c3af9342f6ae8773d91e665e4220e58ca47c8427fb53d2575857f18690b"},
+  "arms": ["canonical", "atom_aware"],
+  "epochs_per_arm": 3,
+  "seed": 20260915,
+  "core_learning_rate": 0.00003,
+  "adapter_learning_rate": 0.0003,
+  "target_policy": {"inward_margin_seconds": 0.001, "excess_rank_tolerance": 0.00001},
+  "paired_initial_weights": true,
+  "paired_optimizer_initialization": "fresh_AdamW_for_each_arm",
+  "paired_training_streams": true,
+  "terminal_budget": "78_updates_per_epoch;9913_natural_rows;16_H_x_3_P_per_update;DDIM50_full50_backward",
+  "checkpoint_selection": "third_raw_epoch_predeclared_no_generated_Fine_search",
+  "canonical_objective": "unchanged_wide_coupled_rank_PET_Fine_encounter_road_speed",
+  "atom_objective": "original_P;midrank_target;SmoothL1_excess_over_scalar_floor;all_present_PET_and_encounter;exact_eligible_only_Fine",
+  "comparison_scope": "target_control_package_not_isolated_single_operator_or_P_condition_vs_guidance_ablation",
+  "estimated_CDF_is_not_known_truth": true,
+  "protected_data_access": false,
+  "evaluate_only_after_both_arms_complete": true,
+  "runtime": {"device": "cuda:0", "threads": 2, "deterministic": true, "TF32": false, "AMP": false}
+}

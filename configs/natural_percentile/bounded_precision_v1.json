@@ -1,0 +1,28 @@
+{
+  "protocol": "natural_GP_bounded_precision_v1",
+  "base_policy": {
+    "path": "configs/natural_percentile/success_preserving_precision_v1.json",
+    "sha256": "606cd7b4a8cbe8aa9ae176b83ed677adf472ffeb6bf735afb96f909606b8b0a7"
+  },
+  "recipes": ["bounded_precision"],
+  "output_root": "outputs/natural_percentile/bounded_precision_v1_20260913",
+  "gradient_diagnosis": {
+    "path": "outputs/natural_percentile/target_lag_precision_v1_20260913/FIT_history_gradient_tails/result.json",
+    "sha256": "ec2a93a6a7238d55a084a626578ca87047fffa78344aa2fdc2f1497c2574bf08"
+  },
+  "max_history_gradient_norm": 3.0,
+  "cap_rationale": "FIT positive-H risk-gradient95th percentile2.9855 rounded up to3; not STOP-selected or claimed optimal",
+  "gradient_scope": "all auxiliary sample gradients grouped by H across3 P requests; undo present-H mean before norm; preserve within-H direction; base loss unaffected",
+  "gradient_modified_but_forward_losses_unchanged": true,
+  "same_training_budget_data_parent_seed_and_inference_as_base_policy": true,
+  "precision_reference": {
+    "path": "outputs/natural_percentile/wide_CFG_attenuation_v1_20260913/scale_2.5/results.json",
+    "sha256": "24dd5ff02384100ae45a430bd7abb926e13861416374832a879f40d3e901b2d3"
+  },
+  "target_Fine_count": 25,
+  "Fine_tolerance": 0.05,
+  "fixed_development_requests": 36,
+  "inference_K": 1,
+  "no_postcorrection_or_inference_risk_oracle": true,
+  "production_default_changed": false
+}

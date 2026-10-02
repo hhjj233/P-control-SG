@@ -1,0 +1,22 @@
+{
+  "protocol": "natural_reference_recording_split_v1",
+  "split_unit": "recording",
+  "scope": "natural_reference_development_pilot_not_final_paper_split",
+  "frozen_before_natural_event_counts_or_PET_or_model_outcomes": true,
+  "authorized_parent_roster": "configs/highd_split_v1.json",
+  "authorized_parent_roster_sha256": "7829e4ac15227688330bf4d6d54c2e9d353d7c0546118867b4d97b4a6432b904",
+  "eligible_rule": "parent_train_recording_with_at_least_one_carriageway_of_at_least_three_lanes_from_recordingMeta_only",
+  "assignment_rule": "sort_eligible_recording_IDs_by_hex_sha256_of_salt_pipe_two_digit_ID_first_5_V_ref_remaining_T",
+  "salt": "natural_reference_development_v1",
+  "T": ["04", "05", "08", "10", "11", "12", "25", "26", "28", "29", "36", "40", "46", "52", "53", "55", "57", "59"],
+  "V_ref": ["06", "41", "43", "49", "51"],
+  "audit_only": ["01", "02", "03", "17", "20", "22"],
+  "audit_only_reason": "both_carriageways_two_lanes_so_strict_ego_plus_eight_directional_neighbors_impossible",
+  "locked_parent_val": ["07", "09", "13", "14", "15", "30", "31", "37", "45", "48", "50", "56", "58", "60"],
+  "locked_parent_test": ["16", "19", "21", "23", "24", "27", "32", "33", "34", "35", "38", "39", "42", "44", "47", "54"],
+  "recording_18": "unassigned_in_parent_roster_not_authorized",
+  "V_gen": [],
+  "Test": [],
+  "no_final_test_claim": true,
+  "future_OOF_policy": "T_recording_grouped_crossfit_only_after_reference_architecture_selection_and_sample_feasibility_gate"
+}

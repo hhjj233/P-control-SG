@@ -1,0 +1,17 @@
+{
+  "protocol": "natural_ruler_context_adapter_paired_training_v1",
+  "base_policy": {"path": "configs/natural_percentile/multi_p_pilot_v1.json", "sha256": "56404622fadd8dc4477356e13130d2f94e442d816839d1956894599becb0c081"},
+  "evidence": {"path": "outputs/natural_percentile/ruler_transfer_audit_v1_20260913/result.json", "sha256": "f21a7eda59a676f4b1a67c756193c9159af8a1c28999de859061002c81bae445"},
+  "smoke": {"path": "outputs/natural_percentile/ruler_context_smoke_v2_20260913/result.json", "sha256": "8de38a0d07aa68aebd074fd79e5bb83b86cc56486d27d5e42787a9d8aa5b7c6e"},
+  "parent_STOP_CPU": {"path": "outputs/natural_percentile/low_speed_training_v1_20260913/STOP_evaluation/parent/results.json", "sha256": "4fd3c3e40affd29d3d9b06d0d6a7f8472d1979b50c13c84168d63ecc357ed57a"},
+  "recipes": ["constant_shape", "oof_shape"],
+  "context": {"hidden_dim": 64, "dimension": 65, "fixed_control": "uniform_CDF_on_0_4_no_atoms", "training": "same_row_own_OOF_masses_and_warp", "deployment": "H_only_frozen_full_FIT_reference", "observation_labels_unchanged": true},
+  "training_overrides": {"epochs": 3, "snapshot_epochs": [0, 1, 3], "learning_rate": 0.0001, "adapter_only": true},
+  "runtime": {"device": "cuda:0", "threads": 2, "TF32": false},
+  "evaluation_device": "cpu",
+  "same_between_new_arms": ["trained_CFG_parent", "new_adapter_initial_weights", "all_9913_natural_base_rows_and_OOF_P_labels", "P_grid_and_slot_noise", "base_randomness_and_P_presence", "all_losses_and_optimizer", "frozen_parent", "budget", "raw_STOP_H_P_z_K1"],
+  "new_robustness_or_multiseed_experiments": false,
+  "CDF_refit_or_full_FIT_self_relabeling": false,
+  "production_default_changed": false,
+  "output_root": "outputs/natural_percentile/ruler_context_pilot_v1_20260913"
+}

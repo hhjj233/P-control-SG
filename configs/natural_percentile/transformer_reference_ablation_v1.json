@@ -1,0 +1,20 @@
+{
+  "protocol": "transformer_publication_reference_ablation_v1",
+  "parent_policy": {"path": "configs/natural_percentile/time_attention_cdf_pilot_v1.json", "sha256": "8a34b4d71deddee88bfcdd0783d2ac304f54905a732cc009a9e05fb53cbdf865"},
+  "reuse_completed": {
+    "M2_MLP": {"path": "outputs/natural_percentile/time_attention_cdf_pilot_v1_20260915/M2_MLP/result.json", "sha256": "f3a738d6bf8b76129c2fab31acb19f8f79e6fadca35b173676297fe62b4c3e58"},
+    "M2_TimeAttn": {"path": "outputs/natural_percentile/time_attention_cdf_pilot_v1_20260915/M2_TimeAttn/result.json", "sha256": "c40d8a7e5e69d29034d541f6eba4a1b1eb00e70ad154c8959ea263c06d0a6e7d"}
+  },
+  "new_arms": ["M2_TimeAttn_absolute_only", "M2_TimeAttn_relative_only", "M1_TimeAttn", "M2_GRU"],
+  "selection_roles": ["FIT", "STOP"],
+  "same_parent_training_policy": true,
+  "same_nonencoder_initialization": true,
+  "main_Transformer_not_selected_by_ablation_AUDIT": true,
+  "all_arms_reported": true,
+  "multitraining_seed_campaign": false,
+  "equal_parameter_or_FLOP_claim": false,
+  "protected_data_access": false,
+  "CAL_AUDIT_access": false,
+  "old_files_overwritten": false,
+  "output_root": "outputs/natural_percentile/transformer_publication_v1_20260916/reference_ablation"
+}

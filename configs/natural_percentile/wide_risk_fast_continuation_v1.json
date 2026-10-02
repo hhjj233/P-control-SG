@@ -1,0 +1,44 @@
+{
+  "protocol": "natural_GP_wide_risk_fast_continuation_v1",
+  "base_policy": {
+    "path": "configs/natural_percentile/wide_coupled_risk_continuation_v1.json",
+    "sha256": "bf495d262882442e9316bd110bedf856f9f6c603679a3c089171c498705c310a"
+  },
+  "recipes": [
+    "wide_fast"
+  ],
+  "resume_training_state": {
+    "path": "outputs/natural_percentile/wide_coupled_risk_continuation_v1_20260913/wide_coupled/training_state_epoch_003.pt",
+    "sha256": "bf8278aebd8b5e0cb52e522d05b6d5df18045d0ad2b8a787bf2b7e6286980221"
+  },
+  "resume_completed_local_epochs": 3,
+  "resume_global_epoch": 12,
+  "previous_evaluation": {
+    "path": "outputs/natural_percentile/wide_coupled_risk_continuation_v1_20260913/STOP_evaluation/results.json",
+    "sha256": "fa25c87acac18997a205a51ea6309dc0706a61fc7a82508bdcd1368784268dae"
+  },
+  "geometry_equivalence": {
+    "path": "outputs/natural_percentile/PET_broadphase_equivalence_v1_20260913/result.json",
+    "sha256": "60671fa61dc88f14c0abb3d70da00f498bc9422313cafe6e2c1c9b0ddb116ae6"
+  },
+  "training_update_equivalence": {
+    "path": "outputs/natural_percentile/broadphase_update_equivalence_v1_20260913/result.json",
+    "sha256": "08c82838baae56dc286add57041790faff80c97f0e591162df5cce0c3ba32b8c"
+  },
+  "training_overrides": {
+    "epochs": 6,
+    "snapshot_epochs": [
+      0,
+      1,
+      3,
+      6
+    ]
+  },
+  "same_model_losses_data_labels_and_inference": true,
+  "restore_raw_EMA_optimizer_and_all_RNG": true,
+  "acceleration_not_a_model_accuracy_change": true,
+  "new_robustness_or_multiseed_study": false,
+  "production_default_changed": false,
+  "decision_after_budget": "if Fine does not improve beyond historical9/36, prioritize targeted structural changes over another identical continuation",
+  "output_root": "outputs/natural_percentile/wide_risk_fast_continuation_v1_20260913"
+}

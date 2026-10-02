@@ -1,0 +1,55 @@
+{
+  "protocol": "natural_ego_scene_recording_roles_v1",
+  "split_unit": "recording",
+  "parent_role_roster": {
+    "path": "configs/natural_percentile/calibration_roles_v5.json",
+    "sha256": "19fa1746d677167f1fce34ad21c593d05518232cc3aa37ff5c9a168ea5c2c0f8"
+  },
+  "original_split": {
+    "path": "configs/highd_split_v1.json",
+    "sha256": "7829e4ac15227688330bf4d6d54c2e9d353d7c0546118867b4d97b4a6432b904"
+  },
+  "FIT": [
+    "05",
+    "08",
+    "10",
+    "11",
+    "12",
+    "22",
+    "26",
+    "28",
+    "40",
+    "46",
+    "52",
+    "55",
+    "57"
+  ],
+  "STOP": [
+    "04",
+    "20",
+    "25",
+    "36"
+  ],
+  "CAL": [
+    "02",
+    "17",
+    "29",
+    "49",
+    "53",
+    "59"
+  ],
+  "AUDIT": [
+    "01",
+    "03",
+    "06",
+    "41",
+    "43",
+    "51"
+  ],
+  "old_pair_event_counts_reused": false,
+  "old_calibration_results_reused": false,
+  "AUDIT_status": "previously_inspected_recordings_internal_development_not_final_blind_test",
+  "current_stage": "scene_definition_and_data_build_only",
+  "model_training": false,
+  "generator_training": false
+}

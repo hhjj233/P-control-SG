@@ -1,0 +1,18 @@
+{
+  "protocol": "natural_complete_ego_scene_view_config_v1",
+  "source_manifest": {
+    "path": "outputs/natural_percentile/ego_scene_v1_20260910/manifest.json",
+    "sha256": "86dbb5356841f4ca44e3e3da5a65612abd3594ae30721ebeea370cc220c79953"
+  },
+  "eligibility": "all_history_selected_agents_all_175_native_future_frames_observed",
+  "estimand": "P(Y_scene_6.96s <= y | H, E_full=1)",
+  "cap_seconds": 4.0,
+  "window_seconds": [0.0, 6.96],
+  "loss": "CRPS",
+  "partial_zero_included": false,
+  "missingness_weights": false,
+  "model_training": false,
+  "calibration_training": false,
+  "generator_training": false,
+  "output_root": "outputs/natural_percentile/complete_scene_view_v1_20260910"
+}

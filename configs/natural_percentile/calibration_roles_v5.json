@@ -1,0 +1,128 @@
+{
+  "protocol": "natural_clip_four_role_road_support_split_v5",
+  "split_unit": "recording",
+  "scope": "fresh_fit_stop_six_record_CAL_internal_development_audit",
+  "frozen_before_v5_fitting": true,
+  "parent_v3_roles": {
+    "path": "configs/natural_percentile/calibration_roles_v3.json",
+    "sha256": "38e791547901064b82044ea42e7a93ba0b2963018a5ad442f40dc5dc2449251f"
+  },
+  "v2_development_split": {
+    "path": "configs/natural_percentile/clip_development_split_v2.json",
+    "sha256": "d0635b8ccfa7773277467247f475025b84f871b60134ef080acbd5958f0e1efe"
+  },
+  "authorized_parent_roster": {
+    "path": "configs/highd_split_v1.json",
+    "sha256": "7829e4ac15227688330bf4d6d54c2e9d353d7c0546118867b4d97b4a6432b904"
+  },
+  "assignment_rule": "move_the_first_two_sorted_two_lane_v3_FIT_recordings_02_17_to_CAL_keep_22_in_FIT_all_other_roles_unchanged",
+  "road_assignment_uses_observed_PET_or_AUDIT_scores": false,
+  "moved_from_FIT_to_CAL": [
+    "02",
+    "17"
+  ],
+  "FIT": [
+    "05",
+    "08",
+    "10",
+    "11",
+    "12",
+    "22",
+    "26",
+    "28",
+    "40",
+    "46",
+    "52",
+    "55",
+    "57"
+  ],
+  "STOP": [
+    "04",
+    "20",
+    "25",
+    "36"
+  ],
+  "CAL": [
+    "02",
+    "17",
+    "29",
+    "49",
+    "53",
+    "59"
+  ],
+  "AUDIT": [
+    "01",
+    "03",
+    "06",
+    "41",
+    "43",
+    "51"
+  ],
+  "expected_events": {
+    "FIT": 2016,
+    "STOP": 572,
+    "CAL": 722,
+    "AUDIT": 835
+  },
+  "uses": {
+    "FIT": "fresh_base_optimizer_and_history_normalizer_only",
+    "STOP": "base_checkpoint_early_stopping_only",
+    "CAL": "base_frozen_then_six_record_LOO_family_ridge_selection_and_full_CAL_refit",
+    "AUDIT": "evaluate_only_after_all_bases_and_both_selected_calibrators_frozen"
+  },
+  "source_authentication_may_decode_all29_history_and_PET": true,
+  "algorithmic_role_isolation_required": true,
+  "old_checkpoints_or_warm_start": false,
+  "minimum_events": {
+    "FIT": 1000,
+    "STOP": 200,
+    "CAL": 200,
+    "AUDIT": 30
+  },
+  "minimum_nonempty_recordings": {
+    "FIT": 10,
+    "STOP": 3,
+    "CAL": 6,
+    "AUDIT": 3
+  },
+  "minimum_continuous_CAL_events": 100,
+  "locked_parent_val": [
+    "07",
+    "09",
+    "13",
+    "14",
+    "15",
+    "30",
+    "31",
+    "37",
+    "45",
+    "48",
+    "50",
+    "56",
+    "58",
+    "60"
+  ],
+  "locked_parent_test": [
+    "16",
+    "19",
+    "21",
+    "23",
+    "24",
+    "27",
+    "32",
+    "33",
+    "34",
+    "35",
+    "38",
+    "39",
+    "42",
+    "44",
+    "47",
+    "54"
+  ],
+  "recording_18": "unassigned_in_parent_roster_not_authorized",
+  "AUDIT_is_fresh_final_test": false,
+  "historically_inspected_AUDIT": true,
+  "no_original_heldout_access": true,
+  "no_generator_or_OOF_label_training": true
+}

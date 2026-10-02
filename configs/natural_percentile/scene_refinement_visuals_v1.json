@@ -1,0 +1,36 @@
+{
+  "protocol": "natural_scene_refinement_visualization_v1",
+  "dataset_manifest": {
+    "path": "outputs/natural_percentile/complete_scene_expanded_v1_20260910/manifest.json",
+    "sha256": "e05bd02e52a81ece015d86be8e106d7c353db42cc29377df364d9306d88c9012"
+  },
+  "source_results": {
+    "old": {
+      "path": "outputs/natural_percentile/scene_crps_pilot_v1_20260910/AUDIT_once/results.json",
+      "sha256": "dd59e274083df59688e421336086281e637795de6edee101cb87496af3ed3442"
+    },
+    "new": {
+      "path": "outputs/natural_percentile/scene_refinement_v1_20260910/development_evaluation/results.json",
+      "sha256": "2c14d29a2ea252bc46e6e858f68872d6c7a6bb2d1581571f0e233ff3bebdbdcf"
+    }
+  },
+  "predictions": {
+    "M1": {
+      "path": "outputs/natural_percentile/scene_crps_pilot_v1_20260910/AUDIT_once/M1_predictions.npz",
+      "sha256": "8474c0222b2c24f733cd17ec2024fd744b022ae3cfaac6b6ec4f6946375b163e"
+    },
+    "old_M2": {
+      "path": "outputs/natural_percentile/scene_crps_pilot_v1_20260910/AUDIT_once/M2_predictions.npz",
+      "sha256": "9d8ce358ec317c73a613019deda481daef9467cb001487c5812a3a36c9c3e50f"
+    },
+    "refined_M2": {
+      "path": "outputs/natural_percentile/scene_refinement_v1_20260910/development_evaluation/refined_M2_predictions.npz",
+      "sha256": "11b3fd8ccb1d6c44d3a613170c25255ea9ce876cef9bb82e8e47df460c7d916b"
+    }
+  },
+  "calibration_model": {
+    "path": "outputs/natural_percentile/scene_refinement_v1_20260910/calibration/calibration_model.json",
+    "sha256": "f89ab7023eaab021fb1fb69b7df212dbc72448fe98a3c8c002d2c9cc5ec82bed"
+  },
+  "output_root": "outputs/natural_percentile/scene_refinement_visuals_v1_20260910"
+}
